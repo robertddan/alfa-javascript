@@ -26,7 +26,7 @@ var prices = {
 		this.xhr.open("POST", "script.php");
 		this.xhr.responseType = "json";
 		
-this.xhr.onload  = function(event) {
+this.xhr.onload = function(event) {
 	console.log(event.responseText);
 };
 		

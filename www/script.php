@@ -4,9 +4,9 @@ $sFile = file_get_contents('../.assets/CAD_JPY.tmp', true);
 
 $sPrices = json_encode(unserialize($sFile));
 
-var_dump($sPrices);
+//var_dump($sPrices);
 
-#return print $sPrices;
+return print $sPrices;
 
 return print <<< JAVASCRIPT
 <?xml version="1.0" encoding="UTF-8"?>
