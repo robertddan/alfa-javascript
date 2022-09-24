@@ -96,15 +96,14 @@ var prices = {
 			this.state = false;
 			if (!this.prices_xhr()) throw 'prices_xhr';
 			if (!this.prices_get()) throw 'prices_get';
-			
-			if (!this.prices_set()) throw 'prices.get'; 
+			if (!this.prices_set()) throw 'prices_set'; 
 			//return this.list;
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	get: function() {
+	get_list: function() {
 		console.log('get');
 		console.log(this.list);
 		return this.list;
@@ -207,12 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	//console.log(prices.constructor());
 	if (!prices.constructor()) throw 'prices.constructor'; 
 
-	let i = 0;
-	while(!prices.state) {
-		console.log(i);
-		i++;
-		setTimeout(3000);
-	}
+	if (!prices.constructor()) throw 'prices.constructor'; 
 	
 
 	
