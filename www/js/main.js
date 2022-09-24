@@ -94,10 +94,10 @@ var prices = {
 			console.error(e);
 		}
   },
-	get: async function() {
+	get: function() {
 		console.log('get');
 		console.log(this.list);
-		return await this.list;
+		return this.list;
 	},
 	prices_xhr: function () {
 		console.log('prices_xhr');
@@ -110,13 +110,16 @@ var prices = {
 		}
 		return true;
 	},
-	prices_load: async function(event) {
-		if(event.target.status != 200) throw event.target.status;
-		this.list = await event.target.response;
+	prices_load: function(event) {
+		if (event.target.status != 200) throw event.target.status;
+		//if (event.xmlhttp.readyState==4) throw event.target.status;
+		this.list = event.target.response;
 		console.log(this.list);
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
+		console.log(event);
+		console.log('Received '+ event.loaded +' of ' + event.total + ' bytes');
 		console.log('Fortschritt beim Laden der Daten');
 	},
 	prices_abort: function(event) {
@@ -128,12 +131,11 @@ var prices = {
 	prices_timeout: function(event) {
 		throw 'Timeout beim Laden der Daten aufgetreten';
 	},
-	prices_get: async function() {
+	prices_get: function() {
 		console.log('prices_get');
-		this.xhr.open('POST', 'script.php');
+		this.xhr.open('POST', 'script.php', true);
 		this.xhr.responseType = 'json';
-		await this.xhr.send();
-		
+		this.xhr.send();
 		this.xhr.addEventListener('load', this.prices_load);
 		this.xhr.addEventListener('progress', this.prices_progress);
 		this.xhr.addEventListener('abort', this.prices_abort);
@@ -143,11 +145,13 @@ var prices = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
 	if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 	//console.log(prices.constructor());
 	if (prices.constructor()) console.log(prices.get());
 	else throw 'prices.constructor';
+
+	
 });
 //console.log(prices.get());

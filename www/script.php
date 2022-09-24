@@ -1,12 +1,32 @@
 <?php
 
-$sFile = file_get_contents('../.assets/CAD_JPY.tmp', true);
 
+
+
+
+
+$sFile = file_get_contents('../.assets/CAD_JPY.tmp', true);
 $sPrices = json_encode(unserialize($sFile));
 
-//var_dump($sPrices);
+//return var_dump( strlen($sPrices));
 
-return print $sPrices;
+#header('Content-Type: application/json; charset=utf-8');
+#header("Content-length: " . strlen($sPrices); // tells file size
+
+#file_put_contents('prices.json', $sPrices);
+#include('prices.json');
+var_dump(headers_list());
+			 
+			 
+//return print var_dump($sPrices);
+
+			 
+/*
+ $result = array('menu1' => 'home', 'menu2' => 'code php', 'menu3' => 'about');
+
+//return the json response :
+header('Content-Type: application/json');  // <-- header declaration
+echo json_encode($result, true);    // <--- encode
 
 return print <<< JAVASCRIPT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -221,4 +241,6 @@ return print <<< JAVASCRIPT
     </CD>
 </CATALOG>
 JAVASCRIPT;
+
+*/
 ?>
