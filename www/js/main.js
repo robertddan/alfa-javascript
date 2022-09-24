@@ -2,6 +2,7 @@
 
 var prices = {
 	xhr: {},
+	list: {},
 	constructor: function(sDivId) {
 		try {
 			// get data
@@ -12,6 +13,10 @@ var prices = {
 			console.error(e);
 		}
   },
+	get: function() {
+		console.log(this.list);
+		return this.list;
+	},
 	prices_xhr: function () {
 		if (window.XMLHttpRequest) {
 			// moderner Browser - IE ab version 7
@@ -24,7 +29,7 @@ var prices = {
 	},
 	prices_load: function(event) {
 		if(event.target.status != 200) throw event.target.status;
-		console.log(event.target.response);
+		this.list = event.target.response;
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
@@ -88,20 +93,20 @@ var chart = {
 		// limits
 		let borderVertical = document.createElementNS(this.xmlns, 'line');
 		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
-		
+		// Vertical
 		borderVertical.setAttributeNS(null, 'x1', '0');
 		borderVertical.setAttributeNS(null, 'x2', '0');
 		borderVertical.setAttributeNS(null, 'y1', '0');
 		borderVertical.setAttributeNS(null, 'y2', this.height);
 		borderVertical.setAttributeNS(null, 'stroke', 'Red');
 		borderVertical.setAttributeNS(null, 'stroke-widt', '2.75');
-		
+		// Horizontal
 		linesHorizontal.setAttributeNS(null, 'x1', '0');
 		linesHorizontal.setAttributeNS(null, 'x2', this.width);
 		linesHorizontal.setAttributeNS(null, 'y1', this.height);
 		linesHorizontal.setAttributeNS(null, 'y2', this.height);
 		linesHorizontal.setAttributeNS(null, 'stroke', 'Red');
-		
+		// append
 		this.svg.appendChild(borderVertical);
 		this.svg.appendChild(linesHorizontal);
 		
@@ -135,5 +140,6 @@ var chart = {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
 	if (!chart.constructor('wrapChart')) throw 'chart.constructor';
-	if (!prices.constructor()) throw 'prices.constructor';
+	if (prices.constructor()) console.log(prices.get());
+	else throw 'prices.constructor';
 });
