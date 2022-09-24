@@ -94,10 +94,10 @@ var prices = {
 			console.error(e);
 		}
   },
-	get: function() {
+	get: async function() {
 		console.log('get');
 		console.log(this.list);
-		return this.list;
+		return await this.list;
 	},
 	prices_xhr: function () {
 		console.log('prices_xhr');
@@ -110,9 +110,9 @@ var prices = {
 		}
 		return true;
 	},
-	prices_load: function(event) {
+	prices_load: async function(event) {
 		if(event.target.status != 200) throw event.target.status;
-		this.list = event.target.response;
+		this.list = await event.target.response;
 		console.log(this.list);
 		console.log('Laden der Daten abgeschlossen');
 	},
@@ -128,16 +128,17 @@ var prices = {
 	prices_timeout: function(event) {
 		throw 'Timeout beim Laden der Daten aufgetreten';
 	},
-	prices_get: function() {
+	prices_get: async function() {
 		console.log('prices_get');
 		this.xhr.open('POST', 'script.php');
 		this.xhr.responseType = 'json';
+		await this.xhr.send();
+		
 		this.xhr.addEventListener('load', this.prices_load);
 		this.xhr.addEventListener('progress', this.prices_progress);
 		this.xhr.addEventListener('abort', this.prices_abort);
 		this.xhr.addEventListener('error', this.prices_error);
 		this.xhr.addEventListener('timeout', this.prices_timeout);
-		this.xhr.send();
 		return true;
   }
 };
