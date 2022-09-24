@@ -1,21 +1,22 @@
 <?php
 
 
-
-
+header('Content-Type: application/json; charset=utf-8');
+header("Content-length: 374596");# . strlen($sPrices); // tells file size
 
 
 $sFile = file_get_contents('../.assets/CAD_JPY.tmp', true);
 $sPrices = json_encode(unserialize($sFile));
 
-//return var_dump( strlen($sPrices));
+#var_dump(strlen($sPrices));
 
-#header('Content-Type: application/json; charset=utf-8');
-#header("Content-length: " . strlen($sPrices); // tells file size
+return print $sPrices;
+
+
 
 #file_put_contents('prices.json', $sPrices);
 #include('prices.json');
-var_dump(headers_list());
+#var_dump(headers_list());
 			 
 			 
 //return print var_dump($sPrices);

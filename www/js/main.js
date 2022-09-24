@@ -1,5 +1,11 @@
 'use strict';
 
+var response = {
+	addPrices: function() {
+		prices.state = true;
+  }
+};
+	
 var chart = {
 	height: '',
 	width: '',
@@ -80,14 +86,18 @@ var chart = {
 };
 
 var prices = {
+	state: false,
 	xhr: '',
 	list: '',
 	constructor: function(sDivId) {
 		try {
 			// get data
 			console.log('constructor');
+			this.state = false;
 			if (!this.prices_xhr()) throw 'prices_xhr';
 			if (!this.prices_get()) throw 'prices_get';
+			
+			if (!this.prices_set()) throw 'prices.get'; 
 			//return this.list;
 			return true;
 		} catch (e) {
@@ -98,6 +108,23 @@ var prices = {
 		console.log('get');
 		console.log(this.list);
 		return this.list;
+	},
+	prices_set: function() {
+		console.log('set');
+		console.log('this.xhr');
+		console.log(this.xhr);
+		
+const promise1 = Promise.resolve(this.xhr);
+		
+promise1.then((value) => {
+console.log(value);
+// expected output: 123
+});
+		
+		this.list = this.xhr;
+			console.log('this.list');
+			console.log(this.list);
+		return true;
 	},
 	prices_xhr: function () {
 		console.log('prices_xhr');
@@ -110,17 +137,33 @@ var prices = {
 		}
 		return true;
 	},
+	prices_state: function(event) {
+		//console.log('response.liste');
+		//console.log(response.liste);
+		//console.log(this.readyState);
+		//console.log('State change');
+		if (this.readyState === 4) {
+			//console.log(event.target.response);
+			//this.set(event.target.response);
+			response.addPrices();
+			//console.log(['response', response.liste])
+		} 
+	},
 	prices_load: function(event) {
 		if (event.target.status != 200) throw event.target.status;
-		//if (event.xmlhttp.readyState==4) throw event.target.status;
-		this.list = event.target.response;
-		console.log(this.list);
+		//if (event.xmlhttp.readyState == 4) throw event.target.status;
+	//console.log(this);
+		//this.list = event.target.response;
+		
+		//response.addPrices(event.target.response);
+		//console.log(this.list);
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
-		console.log(event);
-		console.log('Received '+ event.loaded +' of ' + event.total + ' bytes');
-		console.log('Fortschritt beim Laden der Daten');
+		//console.log('Received '+ event.loaded +' of ' + event.total + ' bytes');
+		//this.list = event.target.response;
+		//if (event.loaded == event.total) {}
+		//console.log('Fortschritt beim Laden der Daten');
 	},
 	prices_abort: function(event) {
 		console.log('Laden der Daten abgebrochen');
@@ -136,6 +179,19 @@ var prices = {
 		this.xhr.open('POST', 'script.php', true);
 		this.xhr.responseType = 'json';
 		this.xhr.send();
+/*
+this.xhr.onreadystatechange = function() {
+	console.log(this.xhr);
+
+	if (this.xhr.readyState != 4) return;
+	if (this.xhr.status != 200) return;
+	// Daten liegen vollständig vor und können verarbeitet werden
+
+	console.log('this.xhr.target.response');
+	console.log(this.xhr.target.response);
+};
+*/
+		this.xhr.addEventListener('readystatechange', this.prices_state);
 		this.xhr.addEventListener('load', this.prices_load);
 		this.xhr.addEventListener('progress', this.prices_progress);
 		this.xhr.addEventListener('abort', this.prices_abort);
@@ -145,12 +201,19 @@ var prices = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   console.log('DOM fully loaded and parsed');
 	if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 	//console.log(prices.constructor());
-	if (prices.constructor()) console.log(prices.get());
-	else throw 'prices.constructor';
+	if (!prices.constructor()) throw 'prices.constructor'; 
+
+	let i = 0;
+	while(!prices.state) {
+		console.log(i);
+		i++;
+		setTimeout(3000);
+	}
+	
 
 	
 });
