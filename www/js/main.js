@@ -23,28 +23,16 @@ var prices = {
 		return true;
 	},
 	prices_get: function() {
-		
-console.log( this.xhr );
 		this.xhr.open("POST", "script.php");
 		this.xhr.responseType = "json";
-		this.xhr.send();
 		
-    this.xhr.onload = function() {
-        if (xhr.status !=200) {
-            container.textContent = "Ooops";
-            return;
-        }
-console.log('xhr.responseText');
-console.log(xhr.responseText);
-        // Antwort liegt als String vor
-        // Zugriff auf Links erfolgt über Eigenschaft responseText
-        // Snippet wird als DOM-String an Container übergeben
-        container.innerHTML = xhr.responseText;
-    };
+this.xhr.onload  = function(event) {
+	console.log(event.responseText);
+};
 		
-		this.xhr.addEventListener("load", function(xhr) {
-			if(xhr.target.status != 200) throw xhr.target.status;
-			console.log(xhr.responseText);
+		this.xhr.addEventListener("load", function(event) {
+			if(event.target.status != 200) throw xhr.target.status;
+			console.log(event.responseText);
 			console.log("Laden der Daten abgeschlossen");
 		});
 
@@ -63,6 +51,9 @@ console.log(xhr.responseText);
 		this.xhr.addEventListener("timeout", function() {
 			throw "Timeout beim Laden der Daten aufgetreten";
 		});
+		
+		
+		this.xhr.send();
 		return true;
   }
 	
