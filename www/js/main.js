@@ -1,7 +1,7 @@
 "use strict";
 
 
-{
+//{
 
 /*
 var xmlns = "http://www.w3.org/2000/svg";
@@ -66,7 +66,8 @@ console.log(listItem);
 console.log(unorderedList.appendChild(listItem));
 */
 	
-
+/*
+!!! GOOOOD
 	let sDivId = 'wrapChart';
 	
 	var xmlns = "http://www.w3.org/2000/svg";
@@ -90,6 +91,7 @@ console.log(unorderedList.appendChild(listItem));
 	container.append(o_svg);
 	
 	console.log(container.childNodes) // NodeList [ <p> ]
+*/
 	
 /*
 <svg height="210" width="500">
@@ -135,34 +137,63 @@ console.log(unorderedList.appendChild(listItem));
 	container.appendChild(svg);
 */
 
-}
+//}
 
 /*
+	let sDivId = 'wrapChart';
+	
+	var xmlns = "http://www.w3.org/2000/svg";
+	// let o_svg = document.querySelector('svg');
+	var o_svg = document.createElementNS(xmlns, "svg");
+	o_svg.setAttributeNS(null, 'height', '210');
+	o_svg.setAttributeNS(null, 'width', '500');
+	o_svg.style.display = "block";
+	
+	//let linesVertical = document.createElement('line');
+	var linesVertical = document.createElementNS(xmlns, "line");
+	linesVertical.setAttributeNS(null, 'x1', '0');
+	linesVertical.setAttributeNS(null, 'x2', '200');
+	linesVertical.setAttributeNS(null, 'y1', '0');
+	linesVertical.setAttributeNS(null, 'y2', '200');
+	linesVertical.setAttributeNS(null, 'stroke', 'Red');
+	linesVertical.setAttributeNS(null, 'stroke-widt', '2.75');
+	
+	o_svg.appendChild(linesVertical);
+	const container = document.getElementById(sDivId);
+	container.append(o_svg);
+	
+	console.log(container.childNodes) // NodeList [ <p> ]
+*/
+
 class Chart {
 
   svg;
+	xmlns;
 
 	constructor(sDivId) {
-		this.svg = document.createElement('svg');
-		this.svg.setAttribute('id', 'chart');
-		this.svg.setAttribute('height', '400');
-		this.svg.setAttribute('width', '630');
+		this.xmlns = 'http://www.w3.org/2000/svg';
+		this.svg = document.createElementNS(this.xmlns, 'svg');
+		this.svg.setAttributeNS(null, 'id', 'chart');
+		this.svg.setAttributeNS(null, 'height', '400');
+		this.svg.setAttributeNS(null, 'width', '630');
 		
 		// boundaries
-		let linesVertical = document.createElement('line');
-		let linesHorizontal = document.createElement('line');
+		let linesVertical = document.createElementNS(this.xmlns, 'line');
+		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
 		
-		linesVertical.setAttribute('x1', '0');
-		linesVertical.setAttribute('x2', '0');
-		linesVertical.setAttribute('y1', '0');
-		linesVertical.setAttribute('y2', '400');
-		linesVertical.setAttribute('style', 'stroke:Red;stroke-width:2.75');
+		linesVertical.setAttributeNS(null, 'x1', '0');
+		linesVertical.setAttributeNS(null, 'x2', '0');
+		linesVertical.setAttributeNS(null, 'y1', '0');
+		linesVertical.setAttributeNS(null, 'y2', '400');
+		linesVertical.setAttributeNS(null, 'stroke', 'Red');
+		linesVertical.setAttributeNS(null, 'stroke-widt', '2.75');
 		
-		linesHorizontal.setAttribute('x1', '0');
-		linesHorizontal.setAttribute('x2', '600');
-		linesHorizontal.setAttribute('y1', '600');
-		linesHorizontal.setAttribute('y2', '600');
-		linesHorizontal.setAttribute('style', 'stroke:Red;stroke-width:2.75');
+		linesHorizontal.setAttributeNS(null, 'x1', '0');
+		linesHorizontal.setAttributeNS(null, 'x2', '600');
+		linesHorizontal.setAttributeNS(null, 'y1', '600');
+		linesHorizontal.setAttributeNS(null, 'y2', '600');
+		linesHorizontal.setAttributeNS(null, 'stroke', 'Red');
+		linesHorizontal.setAttributeNS(null, 'stroke-widt', '2.75');
 		
 //<line x1="0" y1="0" x2="0" y2="2600" style="stroke:Red;stroke-width:2.75" /> <!-- vertical -->
 //<line x1="0" y1="2600" x2="2600" y2="2600" style="stroke:Red;stroke-width:2.75"/> <!-- orizontal -->
@@ -170,13 +201,11 @@ class Chart {
 		this.svg.appendChild(linesVertical);
 		this.svg.appendChild(linesHorizontal);
 		
-		const container = document.getElementById(sDivId);
-		container.appendChild(svg);
+		document.getElementById(sDivId).appendChild(this.svg);
   }
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
 	new Chart('wrapChart');
 });
-*/
