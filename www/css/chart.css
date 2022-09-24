@@ -1,0 +1,42 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+nav {
+  height: 90px;
+  background-color: aquamarine;
+  top: 0px;
+  margin: 0px;
+}
+
+.container {
+  // width: 900px;
+  background-color: bisque;
+	margin: 0px auto;
+}
+
+main {
+	min-height: 122px;
+}
+
+main #sidebar { 
+	color: red;
+	float: left;
+	width: 28%;
+}
+
+main #content { 
+	color: red;
+	float: right;
+	width: 72%;
+}   
+
+#chart {
+  background-color: beige;
+}
+
+.newLine {
+	stroke: rgb(255,0,0);
+	stroke-width: 2
+}
