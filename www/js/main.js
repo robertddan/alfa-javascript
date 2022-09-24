@@ -1,62 +1,55 @@
-"use strict";
+'use strict';
 
 var prices = {
 	xhr: {},
 	constructor: function(sDivId) {
 		try {
 			// get data
-			if (!this.xhr_set()) throw 'xhr_set';
+			if (!this.prices_xhr()) throw 'prices_xhr';
 			if (!this.prices_get()) throw 'prices_get';
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	xhr_set: function () {
+	prices_xhr: function () {
 		if (window.XMLHttpRequest) {
 			// moderner Browser - IE ab version 7
 			this.xhr = new XMLHttpRequest();
 		} else if (window.ActiveXObject) {
 			// IE 6
-			this.xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			this.xhr = new ActiveXObject('Microsoft.XMLHTTP');
 		}
 		return true;
 	},
+	prices_load: function(event) {
+		if(event.target.status != 200) throw event.target.status;
+		console.log(event.target.response);
+		console.log('Laden der Daten abgeschlossen');
+	},
+	prices_progress: function(event) {
+		console.log('Fortschritt beim Laden der Daten');
+	},
+	prices_abort: function(event) {
+		console.log('Laden der Daten abgebrochen');
+	},
+	prices_error: function(event) {
+		throw 'Fehler beim Laden der Daten aufgetretn';
+	},
+	prices_timeout: function(event) {
+		throw 'Timeout beim Laden der Daten aufgetreten';
+	},
 	prices_get: function() {
-		this.xhr.open("POST", "script.php");
-		this.xhr.responseType = "json";
-		
-this.xhr.onload = function(event) {
-	console.log(event.responseText);
-};
-		
-		this.xhr.addEventListener("load", function(event) {
-			if(event.target.status != 200) throw xhr.target.status;
-			console.log(event.responseText);
-			console.log("Laden der Daten abgeschlossen");
-		});
-
-		this.xhr.addEventListener("progress", function() {
-			console.log("Fortschritt beim Laden der Daten");
-		});
-
-		this.xhr.addEventListener("abort", function() {
-			console.log("Laden der Daten abgebrochen");
-		});
-
-		this.xhr.addEventListener("error", function() {
-			throw "Fehler beim Laden der Daten aufgetretn";
-		});
-
-		this.xhr.addEventListener("timeout", function() {
-			throw "Timeout beim Laden der Daten aufgetreten";
-		});
-		
-		
+		this.xhr.open('POST', 'script.php');
+		this.xhr.responseType = 'json';
+		this.xhr.addEventListener('load', this.prices_load);
+		this.xhr.addEventListener('progress', this.prices_progress);
+		this.xhr.addEventListener('abort', this.prices_abort);
+		this.xhr.addEventListener('error', this.prices_error);
+		this.xhr.addEventListener('timeout', this.prices_timeout);
 		this.xhr.send();
 		return true;
   }
-	
 };
 
 
