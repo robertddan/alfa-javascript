@@ -6,4 +6,5 @@ $sPrices = json_encode(unserialize($sFile));
 
 var_dump($sPrices);
 
+return print $sPrices;
 ?>
