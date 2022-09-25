@@ -1,17 +1,11 @@
 <?php
 
-
 header('Content-Type: application/json; charset=utf-8');
 header("Content-length: 374596");# . strlen($sPrices); // tells file size
 
-
-$sFile = file_get_contents('../.assets/CAD_JPY.tmp', true);
-$sPrices = json_encode(unserialize($sFile));
-
-#var_dump(strlen($sPrices));
+$sPrices = file_get_contents('./prices.json', true);
 
 return print $sPrices;
-
 
 
 #file_put_contents('prices.json', $sPrices);
