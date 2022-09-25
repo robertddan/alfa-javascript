@@ -88,7 +88,11 @@ var chart = {
 var prices = {
 	xhr: {},
 	list: {},
-	event: document.createEvent('PricesLoaded'),
+	prices_event: function() {
+		return new CustomEvent("menu-open", {
+			bubbles: true
+		});
+	},
 	constructor: function(sDivId) {
 		try {
 			// get data
@@ -120,12 +124,15 @@ var prices = {
 	prices_load: function(event) {
 		if (event.target.status !== 200) return console.log(event.target.status);
 		if (event.target.readyState !== 4) return console.log(event.target.readyState);
+		if (!window.prices.prices_set(event.target.response)) throw 'prices_set'; 
 		
 		console.log(['load', event]);
 		console.log(['load', ['document', document, 'window', window]]);
 		console.log(['response', event.target.response]);
+		//console.log(window.prices.prices_event);
+		//window.dispatchEvent(window.prices.prices_event());
 		
-		if (!window.prices.prices_set(event.target.response)) throw 'prices_set'; 
+		window.dispatchEvent(window.prices.prices_event());
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
@@ -176,7 +183,11 @@ var sticks = {
 };
 
 document.addEventListener('DOMContentLoaded', init(false));
-document.addEventListener('PricesLoaded', init(true), false);
+//document.addEventListener('PricesLoaded', init(true), false);
+
+window.addEventListener('menu-open', () => alert('nested'));
+
+
 
 function init(value = false) {
 	if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
@@ -186,18 +197,22 @@ function init(value = false) {
 	
 }
 
+
+
 /*
 var evt = document.createEvent("Event");
 evt.initEvent("myEvent",true,true);
 
+//invoke
+document.dispatchEvent(evt);
+
 // custom param
 evt.foo = "bar";
+
 
 //register
 document.addEventListener("myEvent",myEventHandler,false);
 
-//invoke
-document.dispatchEvent(evt);
 
 
 
