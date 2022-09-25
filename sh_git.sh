@@ -8,6 +8,6 @@ read -p "Enter your commit message: " varname
 varname=${varname:-message} #📋📋📋✏️✏️✏️📜📜📜} # 👌👌👌🙏🙏🙏✌️✌️✌️
 
 git commit -m "$varname" #"git commit"
-#git remote add origin https://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@github.com/johnidevo/javascript.git
+git remote add origin https://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@github.com/johnidevo/javascript.git
 git push origin master
 

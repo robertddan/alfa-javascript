@@ -1,11 +1,11 @@
 'use strict';
-
+/*
 var response = {
 	addPrices: function() {
 		prices.state = true;
   }
 };
-	
+*/
 var chart = {
 	height: '',
 	width: '',
@@ -13,6 +13,7 @@ var chart = {
 	constructor: function(sDivId) {
 		try {
 			// chart
+			console.log('chart.constructor');
 			if (!this.chart_setup()) throw 'chart_setup';
 			if (!this.chart_stage()) throw 'chart_stage';
 			if (!this.chart_limits()) throw 'chart_limits';
@@ -47,7 +48,6 @@ var chart = {
 		borderVertical.setAttributeNS(null, 'y1', '0');
 		borderVertical.setAttributeNS(null, 'y2', this.height);
 		borderVertical.setAttributeNS(null, 'stroke', 'Red');
-		borderVertical.setAttributeNS(null, 'stroke-widt', '2.75');
 		// Horizontal
 		linesHorizontal.setAttributeNS(null, 'x1', '0');
 		linesHorizontal.setAttributeNS(null, 'x2', this.width);
@@ -68,7 +68,7 @@ var chart = {
 			gridHorizontal.setAttributeNS(null, 'y1', 0);
 			gridHorizontal.setAttributeNS(null, 'x2', this.grid_gap * i);
 			gridHorizontal.setAttributeNS(null, 'y2', this.height);
-			gridHorizontal.setAttributeNS(null, 'stroke', 'Gray');
+			gridHorizontal.setAttributeNS(null, 'stroke', 'LightGray');
 			this.svg.appendChild(gridHorizontal);
 		}
 		// grid vertical
@@ -78,7 +78,7 @@ var chart = {
 			gridVertical.setAttributeNS(null, 'y1', this.grid_gap * i);
 			gridVertical.setAttributeNS(null, 'x2', this.width);
 			gridVertical.setAttributeNS(null, 'y2', this.grid_gap * i);
-			gridVertical.setAttributeNS(null, 'stroke', 'Gray');
+			gridVertical.setAttributeNS(null, 'stroke', 'LightGray');
 			this.svg.appendChild(gridVertical);
 		}
 		return true;
@@ -86,47 +86,28 @@ var chart = {
 };
 
 var prices = {
-	state: false,
-	xhr: '',
-	list: '',
+	xhr: {},
+	list: {},
+	event: document.createEvent('PricesLoaded'),
 	constructor: function(sDivId) {
 		try {
 			// get data
-			console.log('constructor');
-			this.state = false;
+			console.log('prices.constructor');
 			if (!this.prices_xhr()) throw 'prices_xhr';
 			if (!this.prices_get()) throw 'prices_get';
-			if (!this.prices_set()) throw 'prices_set'; 
-			//return this.list;
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	get_list: function() {
-		console.log('get');
-		console.log(this.list);
+	prices_list: function() {
 		return this.list;
 	},
-	prices_set: function() {
-		console.log('set');
-		console.log('this.xhr');
-		console.log(this.xhr);
-		
-const promise1 = Promise.resolve(this.xhr);
-		
-promise1.then((value) => {
-console.log(value);
-// expected output: 123
-});
-		
-		this.list = this.xhr;
-			console.log('this.list');
-			console.log(this.list);
+	prices_set: function(prices) {
+		this.list = prices;
 		return true;
 	},
 	prices_xhr: function () {
-		console.log('prices_xhr');
 		if (window.XMLHttpRequest) {
 			// moderner Browser - IE ab version 7
 			this.xhr = new XMLHttpRequest();
@@ -136,26 +117,15 @@ console.log(value);
 		}
 		return true;
 	},
-	prices_state: function(event) {
-		//console.log('response.liste');
-		//console.log(response.liste);
-		//console.log(this.readyState);
-		//console.log('State change');
-		if (this.readyState === 4) {
-			//console.log(event.target.response);
-			//this.set(event.target.response);
-			response.addPrices();
-			//console.log(['response', response.liste])
-		} 
-	},
 	prices_load: function(event) {
-		if (event.target.status != 200) throw event.target.status;
-		//if (event.xmlhttp.readyState == 4) throw event.target.status;
-	//console.log(this);
-		//this.list = event.target.response;
+		if (event.target.status !== 200) return console.log(event.target.status);
+		if (event.target.readyState !== 4) return console.log(event.target.readyState);
 		
-		//response.addPrices(event.target.response);
-		//console.log(this.list);
+		console.log(['load', event]);
+		console.log(['load', ['document', document, 'window', window]]);
+		console.log(['response', event.target.response]);
+		
+		if (!window.prices.prices_set(event.target.response)) throw 'prices_set'; 
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
@@ -165,32 +135,21 @@ console.log(value);
 		//console.log('Fortschritt beim Laden der Daten');
 	},
 	prices_abort: function(event) {
-		console.log('Laden der Daten abgebrochen');
+		console.error(event);
+		throw 'Laden der Daten abgebrochen';
 	},
 	prices_error: function(event) {
+		console.error(event);
 		throw 'Fehler beim Laden der Daten aufgetretn';
 	},
 	prices_timeout: function(event) {
+		console.error(event);
 		throw 'Timeout beim Laden der Daten aufgetreten';
 	},
 	prices_get: function() {
-		console.log('prices_get');
 		this.xhr.open('POST', 'script.php', true);
 		this.xhr.responseType = 'json';
 		this.xhr.send();
-/*
-this.xhr.onreadystatechange = function() {
-	console.log(this.xhr);
-
-	if (this.xhr.readyState != 4) return;
-	if (this.xhr.status != 200) return;
-	// Daten liegen vollständig vor und können verarbeitet werden
-
-	console.log('this.xhr.target.response');
-	console.log(this.xhr.target.response);
-};
-*/
-		this.xhr.addEventListener('readystatechange', this.prices_state);
 		this.xhr.addEventListener('load', this.prices_load);
 		this.xhr.addEventListener('progress', this.prices_progress);
 		this.xhr.addEventListener('abort', this.prices_abort);
@@ -200,15 +159,81 @@ this.xhr.onreadystatechange = function() {
   }
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
-  console.log('DOM fully loaded and parsed');
-	if (!chart.constructor('wrapChart')) throw 'chart.constructor';
-	//console.log(prices.constructor());
-	if (!prices.constructor()) throw 'prices.constructor'; 
 
-	if (!prices.constructor()) throw 'prices.constructor'; 
+var sticks = {
+	constructor: function(sDivId) {
+		try {
+			// get data
+			console.log('sticks.constructor');
+			return true;
+		} catch (e) {
+			console.error(e);
+		}
+  },
+	get_list: function() {
+		console.log('get');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', init(false));
+document.addEventListener('PricesLoaded', init(true), false);
+
+function init(value = false) {
+	if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
+	if (!value) if (!prices.constructor()) throw 'prices.constructor';
+	console.log(value);
+	if (value) if (!sticks.constructor()) throw 'sticks.constructor';
 	
+}
+
+/*
+var evt = document.createEvent("Event");
+evt.initEvent("myEvent",true,true);
+
+// custom param
+evt.foo = "bar";
+
+//register
+document.addEventListener("myEvent",myEventHandler,false);
+
+//invoke
+document.dispatchEvent(evt);
+
+
+
+const event = document.createEvent('Event');
+
+// Define that the event name is 'build'.
+event.initEvent('build', true, true);
+
+// Listen for the event.
+elem.addEventListener('build', (e) => {
+  // e.target matches elem
+}, false);
+
+// target can be any Element or other EventTarget.
+elem.dispatchEvent(event);
+
+
+
+<button id="menu">Menu (click me)</button>
+<script>
+  menu.onclick = function() {
+    alert(1);
+
+    menu.dispatchEvent(new CustomEvent("menu-open", {
+      bubbles: true
+    }));
+
+    alert(2);
+  };
+
+  // triggers between 1 and 2
+  document.addEventListener('menu-open', () => alert('nested'));
+</script>
+*/
 
 	
-});
+	//if (!prices.get_list()) throw 'prices.get_list';
+
 //console.log(prices.get());
