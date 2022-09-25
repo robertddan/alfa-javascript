@@ -185,7 +185,7 @@ var sticks = {
 document.addEventListener('DOMContentLoaded', init(false));
 //document.addEventListener('PricesLoaded', init(true), false);
 
-window.addEventListener('menu-open', () => alert('nested'));
+window.addEventListener('menu-open', () => init(true));
 
 
 
@@ -194,7 +194,6 @@ function init(value = false) {
 	if (!value) if (!prices.constructor()) throw 'prices.constructor';
 	console.log(value);
 	if (value) if (!sticks.constructor()) throw 'sticks.constructor';
-	
 }
 
 
