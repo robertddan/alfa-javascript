@@ -188,8 +188,11 @@ time: "2022-08-02T07:23:23.943347085Z"
 		for (let i = 0; i < prices.length; i++) {
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
-			//if (!this.enclose(time, oldDate)) throw 'this.comparison';
+			if (!this.enclose(time)) throw 'this.enclose';
 		}
+		return true;
+  },
+	enclose: function(time, indexDate) {
 		return true;
   },
 	comparison: function(time) {
@@ -214,9 +217,6 @@ time: "2022-08-02T07:23:23.943347085Z"
 		if (this.lock == false) this.index = indexDate;
 		if (this.lock == false) this.lock = true;
 		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
-		return true;
-  },
-	enclose: function(time, indexDate) {
 		return true;
   }
 };
