@@ -166,6 +166,11 @@ var sticks = {
 	sticks_data: function(prices) {
 		console.log('sticks_data');
 /*
+All time high
+all time low
+
+*/
+/*
 closeoutAsk: "101.693"
 closeoutBid: "101.672"
 instrument: "CAD_JPY"
