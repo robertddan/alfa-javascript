@@ -185,24 +185,29 @@ time: "2022-08-02T07:23:23.943347085Z"
 		
 		console.log(prices.length);
 		
-		let oldDate = new Date();
 		for (let i = 0; i < prices.length; i++) {
-			
 			const time = new Date(prices[i].time);
-			
-			if (!this.comparison(time, oldDate)) throw 'this.comparison';
+			if (!this.comparison(time)) throw 'this.comparison';
 			//if (!this.enclose(time, oldDate)) throw 'this.comparison';
 		}
 		return true;
   },
-	comparison: function(time, indexDate) {
-		indexDate.setFullYear(time.getFullYear());
-		indexDate.setMonth(time.getMonth());
-		indexDate.setDate(time.getDate());
-		indexDate.setHours(time.getHours());
-		indexDate.setMinutes(time.getMinutes());
-		indexDate.setSeconds(0);
-
+	comparison: function(time) {
+		if (this.lock == false) this.index = time;
+		
+		//if (!this.lock) {
+			let indexDate = new Date();
+			indexDate.setFullYear(this.index.getFullYear());
+			indexDate.setMonth(this.index.getMonth());
+			indexDate.setDate(this.index.getDate());
+			indexDate.setHours(this.index.getHours());
+			indexDate.setMinutes(this.index.getMinutes());
+			indexDate.setSeconds(0);
+			
+			//this.lock = true;
+			//console.log('lock');
+		//}
+		
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
 		newDate.setMonth(time.getMonth());
@@ -211,20 +216,16 @@ time: "2022-08-02T07:23:23.943347085Z"
 		newDate.setMinutes(time.getMinutes());
 		newDate.setSeconds(0);
 		
+		console.log(['time', time, 'index', this.index, 'indexDate', indexDate, 'newDate', newDate]);
 		
-		console.log(['index', this.index, 'indexDate', indexDate, 'newDate', newDate]);
 		
-		if (this.index == 0) this.index = indexDate;
+		if (this.lock == false) this.index = indexDate;
+		if (this.lock == false) this.lock = true;
 		if (indexDate.getTime() !== newDate.getTime()) this.index = indexDate;
-		
-		//if (!this.lock) this.lock = true;
 		
 		return true;
   },
 	enclose: function(time, indexDate) {
-		
-
-		
 		return true;
   }
 };
