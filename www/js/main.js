@@ -213,15 +213,7 @@ time: "2022-08-02T07:23:23.943347085Z"
 		
 		if (this.lock == false) this.index = indexDate;
 		if (this.lock == false) this.lock = true;
-		if (indexDate.getTime() !== newDate.getTime()) {
-			this.index = newDate;
-			console.log('this.index = indexDate;');
-		} 
-		
-		
-		console.log([this.index]);
-		//console.log([indexDate.getTime() !== newDate.getTime(), 'indexDate', indexDate, 'newDate', newDate]);
-		//console.log(['index', indexDate.getTime() !== newDate.getTime()]);
+		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
 		return true;
   },
 	enclose: function(time, indexDate) {
