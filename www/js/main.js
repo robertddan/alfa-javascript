@@ -157,28 +157,83 @@ var sticks = {
 		try {
 			// set sticks
 			console.log('sticks.constructor');
-			if (!this.sticks_data(list)) throw 'sticks_data';
+			if (!this.sticks_index(list)) throw 'sticks_index';
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	sticks_data: function(prices) {
-		console.log('sticks_data');
+	sticks_index: function(prices) {
+		console.log('sticks_index');
+		
 /*
 All time high
 all time low
-
 */
+
 /*
+// new Date(Jahr, Monat[, Tag[, Stunde[, Minute[, Sekunde[, Millisekunde]]]]])
+console.log(new Date(2022, 2, 24, 3, 26, 15));
+
 closeoutAsk: "101.693"
 closeoutBid: "101.672"
 instrument: "CAD_JPY"
 time: "2022-08-02T07:23:23.943347085Z"
 */
+		
 		console.log(prices.length);
+		
+		let lock = false;
+		let oldDate = new Date();
 		for (let i = 0; i < prices.length; i++){
-			console.log(prices[i].closeoutAsk);
+			const time = new Date(prices[i].time);
+			
+/*
+			console.log(time.getDate());       // Tag im Monat
+			console.log(time.getMonth());      // Monat (0-11)
+			console.log(time.getDay());        // Wochentag (0=Sonntag bis 6=Samstag)
+			console.log(time.getFullYear());   // Jahr
+			console.log(time.getHours());      // Stunde
+			console.log(time.getMinutes());    // Minuten
+			console.log(time.getSeconds());    // Sekunden
+			console.log(time.getMilliseconds()); // Millisekunden
+			
+			let sTime = time.getFullYear() 
+				+"-"+ time.getMonth() 
+			+"-"+ time.getDate() 
+			+" "+ time.getHours() 
+			+":"+ time.getMinutes()
+			+":00";
+*/
+			
+			if (!lock) {
+				//let oldDate = new Date();
+				oldDate.setFullYear(time.getFullYear());
+				oldDate.setMonth(time.getMonth());
+				oldDate.setDate(time.getDate());
+				oldDate.setHours(time.getHours());
+				oldDate.setMinutes(time.getMinutes());
+				oldDate.setSeconds(0);
+				lock = true;
+				console.log('lock');
+			}
+			
+			let newDate = new Date();
+			newDate.setFullYear(time.getFullYear());
+			newDate.setMonth(time.getMonth());
+			newDate.setDate(time.getDate());
+			newDate.setHours(time.getHours());
+			newDate.setMinutes(time.getMinutes());
+			newDate.setSeconds(0);
+			//let unixTime = Math.floor(new Date(sTime).getTime() / 1000);
+			
+			console.log([
+				oldDate, 
+				newDate,
+				'oldDate == newDate',
+				oldDate.getTime() == newDate.getTime()
+			]);
+			
 		}
 
 		return true;
