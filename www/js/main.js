@@ -153,8 +153,11 @@ var prices = {
 };
 
 var sticks = {
-	lock: false,
 	index: 0,
+	index_lock: false,
+	time: 5,
+	time_lock: false,
+	sticks: [],
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -189,14 +192,29 @@ time: "2022-08-02T07:23:23.943347085Z"
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
 			if (!this.enclose(time)) throw 'this.enclose';
+			if (!this.structure(prices[i])) throw 'this.structure';
 		}
+		console.log(this.sticks);
 		return true;
   },
-	enclose: function(time, indexDate) {
+	structure: function(price) {
+		if (this.time_lock !== true) return true;
+		
+		if (!Array.isArray(this.sticks[this.index])) this.sticks[this.index] = [];
+		this.sticks[this.index].push(price);
+		
+		return true;
+  },
+	enclose: function(time) {
+		let minute = time.getMinutes();
+		
+		if (minute % this.time === 0) this.time_lock = true;
+		else this.time_lock = false;
+		
 		return true;
   },
 	comparison: function(time) {
-		if (this.lock == false) this.index = time;
+		if (this.index_lock == false) this.index = time;
 	
 		let indexDate = new Date();
 		indexDate.setFullYear(this.index.getFullYear());
@@ -214,8 +232,8 @@ time: "2022-08-02T07:23:23.943347085Z"
 		newDate.setMinutes(time.getMinutes());
 		newDate.setSeconds(0);
 		
-		if (this.lock == false) this.index = indexDate;
-		if (this.lock == false) this.lock = true;
+		if (this.index_lock == false) this.index = indexDate;
+		if (this.index_lock == false) this.index_lock = true;
 		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
 		return true;
   }
