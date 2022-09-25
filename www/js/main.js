@@ -89,9 +89,7 @@ var prices = {
 	xhr: {},
 	list: {},
 	prices_event: function() {
-		return new CustomEvent("menu-open", {
-			bubbles: true
-		});
+		return new CustomEvent('PricesLoaded');
 	},
 	constructor: function(sDivId) {
 		try {
@@ -125,13 +123,6 @@ var prices = {
 		if (event.target.status !== 200) return console.log(event.target.status);
 		if (event.target.readyState !== 4) return console.log(event.target.readyState);
 		if (!window.prices.prices_set(event.target.response)) throw 'prices_set'; 
-		
-		console.log(['load', event]);
-		console.log(['load', ['document', document, 'window', window]]);
-		console.log(['response', event.target.response]);
-		//console.log(window.prices.prices_event);
-		//window.dispatchEvent(window.prices.prices_event());
-		
 		document.dispatchEvent(window.prices.prices_event());
 		console.log('Laden der Daten abgeschlossen');
 	},
@@ -140,10 +131,6 @@ var prices = {
 		//this.list = event.target.response;
 		//if (event.loaded == event.total) {}
 		//console.log('Fortschritt beim Laden der Daten');
-	},
-	prices_abort: function(event) {
-		console.error(event);
-		throw 'Laden der Daten abgebrochen';
 	},
 	prices_error: function(event) {
 		console.error(event);
@@ -159,13 +146,11 @@ var prices = {
 		this.xhr.send();
 		this.xhr.addEventListener('load', this.prices_load);
 		this.xhr.addEventListener('progress', this.prices_progress);
-		this.xhr.addEventListener('abort', this.prices_abort);
 		this.xhr.addEventListener('error', this.prices_error);
 		this.xhr.addEventListener('timeout', this.prices_timeout);
 		return true;
   }
 };
-
 
 var sticks = {
 	constructor: function(sDivId) {
@@ -182,10 +167,8 @@ var sticks = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', init(false));
-//document.addEventListener('PricesLoaded', init(true), false);
-
-document.addEventListener('menu-open', () => init(true));
+document.addEventListener('DOMContentLoaded', () => init(false));
+document.addEventListener('PricesLoaded', () => init(true));
 
 
 
