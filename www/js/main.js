@@ -155,7 +155,7 @@ var prices = {
 var sticks = {
 	index: 0,
 	index_lock: false,
-	time: 5,
+	time: 1, //min 1
 	time_lock: false,
 	sticks: [],
 	constructor: function(list) {
@@ -169,48 +169,30 @@ var sticks = {
 		}
   },
 	sticks_index: function(prices) {
-		console.log('sticks_index');
-		
-/*
-All time high
-all time low
-*/
-
-/*
-// new Date(Jahr, Monat[, Tag[, Stunde[, Minute[, Sekunde[, Millisekunde]]]]])
-console.log(new Date(2022, 2, 24, 3, 26, 15));
-
-closeoutAsk: "101.693"
-closeoutBid: "101.672"
-instrument: "CAD_JPY"
-time: "2022-08-02T07:23:23.943347085Z"
-*/
-		
-		console.log(prices.length);
-		
 		for (let i = 0; i < prices.length; i++) {
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
 			if (!this.enclose(time)) throw 'this.enclose';
-			if (!this.structure(prices[i])) throw 'this.structure';
+			if (!this.setup(prices[i])) throw 'this.setup';
+			if (!this.structure()) throw 'this.structure';
 		}
 		console.log(this.sticks);
 		return true;
   },
-	structure: function(price) {
+	structure: function() {
+		if (this.time_lock !== true) console.log(this.time_lock);
+		return true;
+  },
+	setup: function(price) {
 		if (this.time_lock !== true) return true;
-		
 		if (!Array.isArray(this.sticks[this.index])) this.sticks[this.index] = [];
 		this.sticks[this.index].push(price);
-		
 		return true;
   },
 	enclose: function(time) {
 		let minute = time.getMinutes();
-		
 		if (minute % this.time === 0) this.time_lock = true;
-		else this.time_lock = false;
-		
+		else this.time_lock = false; 
 		return true;
   },
 	comparison: function(time) {
