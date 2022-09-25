@@ -132,7 +132,7 @@ var prices = {
 		//console.log(window.prices.prices_event);
 		//window.dispatchEvent(window.prices.prices_event());
 		
-		window.dispatchEvent(window.prices.prices_event());
+		document.dispatchEvent(window.prices.prices_event());
 		console.log('Laden der Daten abgeschlossen');
 	},
 	prices_progress: function(event) {
@@ -185,7 +185,7 @@ var sticks = {
 document.addEventListener('DOMContentLoaded', init(false));
 //document.addEventListener('PricesLoaded', init(true), false);
 
-window.addEventListener('menu-open', () => init(true));
+document.addEventListener('menu-open', () => init(true));
 
 
 
