@@ -102,7 +102,7 @@ var prices = {
 			console.error(e);
 		}
   },
-	prices_list: function() {
+	get: function() {
 		return this.list;
 	},
 	prices_set: function(prices) {
@@ -153,17 +153,20 @@ var prices = {
 };
 
 var sticks = {
-	constructor: function(sDivId) {
+	constructor: function(list) {
 		try {
-			// get data
+			// set sticks
 			console.log('sticks.constructor');
+			if (!this.sticks_data(list)) throw 'sticks_data';
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	get_list: function() {
-		console.log('get');
+	sticks_data: function(prices) {
+		console.log('sticks_data');
+		console.log(prices);
+		return true;
   }
 };
 
@@ -173,10 +176,16 @@ document.addEventListener('PricesLoaded', () => init(true));
 
 
 function init(value = false) {
-	if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
-	if (!value) if (!prices.constructor()) throw 'prices.constructor';
-	console.log(value);
-	if (value) if (!sticks.constructor()) throw 'sticks.constructor';
+	try {
+		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
+		if (!value) if (!prices.constructor()) throw 'prices.constructor';
+		console.log(value);
+		if (value) if (!sticks.constructor(prices.get())) throw 'sticks.constructor';
+		return true;
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
 }
 
 
