@@ -165,21 +165,25 @@ var sticks = {
   },
 	sticks_data: function(prices) {
 		console.log('sticks_data');
-		console.log(prices);
+/*
+closeoutAsk: "101.693"
+closeoutBid: "101.672"
+instrument: "CAD_JPY"
+time: "2022-08-02T07:23:23.943347085Z"
+*/
+		console.log(prices.length);
+		for (let i = 0; i < prices.length; i++){
+			console.log(prices[i].closeoutAsk);
+		}
+
 		return true;
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => init(false));
-document.addEventListener('PricesLoaded', () => init(true));
-
-
 
 function init(value = false) {
 	try {
 		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
-		console.log(value);
 		if (value) if (!sticks.constructor(prices.get())) throw 'sticks.constructor';
 		return true;
 	} catch (e) {
@@ -188,58 +192,5 @@ function init(value = false) {
 	}
 }
 
-
-
-/*
-var evt = document.createEvent("Event");
-evt.initEvent("myEvent",true,true);
-
-//invoke
-document.dispatchEvent(evt);
-
-// custom param
-evt.foo = "bar";
-
-
-//register
-document.addEventListener("myEvent",myEventHandler,false);
-
-
-
-
-const event = document.createEvent('Event');
-
-// Define that the event name is 'build'.
-event.initEvent('build', true, true);
-
-// Listen for the event.
-elem.addEventListener('build', (e) => {
-  // e.target matches elem
-}, false);
-
-// target can be any Element or other EventTarget.
-elem.dispatchEvent(event);
-
-
-
-<button id="menu">Menu (click me)</button>
-<script>
-  menu.onclick = function() {
-    alert(1);
-
-    menu.dispatchEvent(new CustomEvent("menu-open", {
-      bubbles: true
-    }));
-
-    alert(2);
-  };
-
-  // triggers between 1 and 2
-  document.addEventListener('menu-open', () => alert('nested'));
-</script>
-*/
-
-	
-	//if (!prices.get_list()) throw 'prices.get_list';
-
-//console.log(prices.get());
+document.addEventListener('DOMContentLoaded', () => init(false));
+document.addEventListener('PricesLoaded', () => init(true));
