@@ -172,7 +172,6 @@ var shapes = {
 			if (!this.comparison(time)) throw 'this.comparison';
 			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
-			//if (!this.structure()) throw 'this.structure';
 			if (!this.structure()) throw 'this.structure';
 		}
 		//console.log(this.sticks);
@@ -189,19 +188,6 @@ var shapes = {
 		];
 		return true;
   },
-/*
-	structure: function() {
-		if (this.shapes[this.index] == undefined) return true;
-		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
-		this.shapes[this.index]['stick'] = [
-			Math.min(...closeoutAsk), 
-			Math.max(...closeoutAsk),
-			closeoutAsk.shift(0),
-			closeoutAsk.pop()
-		];
-		return true;
-  },
-*/
 	setup: function(price) {
 		if (this.time_lock !== true) return true;
 		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
