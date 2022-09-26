@@ -172,12 +172,13 @@ var shapes = {
 			if (!this.comparison(time)) throw 'this.comparison';
 			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
+			//if (!this.structure()) throw 'this.structure';
 			if (!this.structure()) throw 'this.structure';
-			if (!this.candlestick()) throw 'this.candlestick';
 		}
+		//console.log(this.sticks);
 		return true;
   },
-	candlestick: function() {
+	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
 		this.sticks[this.index.getTime()] = [
@@ -188,6 +189,7 @@ var shapes = {
 		];
 		return true;
   },
+/*
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
@@ -199,6 +201,7 @@ var shapes = {
 		];
 		return true;
   },
+*/
 	setup: function(price) {
 		if (this.time_lock !== true) return true;
 		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
@@ -242,20 +245,91 @@ var shapes = {
 
 var sticks = {
 	chart: window.chart,
+	scale: null,
 	constructor: function(list) {
 		try {
 			// set sticks
 			console.log('sticks.constructor');
-			if (!this.sticks_index(list)) throw 'sticks_index';
+			//if (!this.price_scale(list)) throw 'sticks.price_scale';
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	sticks_index: function(prices) {
+	index: function(prices) {
 		console.log(this.chart.svg);
 		return true;
+  },
+	price_scale: function(list) {
+		//if (this.scale !== null) return true;
+		
+		console.log(list);
+		console.log(list.pop());
+		console.log(list.length);
+		console.log(Array.prototype.pop.call(list));
+		
+		return true;
+  },
+	ratio: function() {
+		
+/*
+  {
+    if (empty($this->aaView)) return false; 
+    $i = 0;
+    foreach ($this->aaView as $aPrice)
+    {
+      $fPriceAsk = explode(".", $aPrice['closeoutAsk']);
+      $fPriceBid = explode(".", $aPrice['closeoutBid']);
+  
+      if (count($fPriceAsk) > 1)
+      {
+        $iScaleAsk = strlen($fPriceAsk[1]); #zeros
+        $iScaleBid = strlen($fPriceBid[1]); #zeros
+      }
+      else {
+        $iScaleAsk = 0;
+        $iScaleBid = 0;
+      }
+
+      $this->iScale = max(array($iScaleAsk, $iScaleBid));
+      if ($i++ == 5) break;
+    }
+
+    return true;
   }
+	
+  {
+    bcscale($this->iScale);
+    $sPrice = floatval(number_format($sPrice, $this->iScale, '.', ''));
+    if ($sPrice === 0) return 1;
+
+    if (!empty($sPrice)) {
+      return bcmul(bcsub($sPrice, $this->fMinPrice, $this->iScale), $this->fRatio, $this->iScale);
+    }
+
+    $aaPrices = $this->aaView;
+    $aColumns = array_map(function($k) use ($aaPrices) {
+      return array_column($aaPrices, $k);
+    }, array('closeoutAsk','closeoutBid'));
+
+    list($closeoutAsk, $closeoutBid) = $aColumns;
+    $maxPrice = max($closeoutAsk);
+    $minPrice = min($closeoutBid);
+    
+    $pSmallC = -1000;
+    $pLargeD = 1000;
+
+    $difPrice = bcsub($maxPrice, $minPrice);
+    $difChart = bcsub($pLargeD, $pSmallC);
+    #if ($difPrice == 0) $difPrice = $minPrice;
+    $fRation = bcdiv($difChart, $difPrice);
+    $this->fRatio = ($fRation != 0 ? $fRation: 0.2);
+    $this->fMinPrice = $minPrice;
+    bcscale(0); # reset
+    return 1;
+  }
+*/
+	}
 };
 
 
