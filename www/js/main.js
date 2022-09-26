@@ -164,7 +164,7 @@ var shapes = {
 		}
   },
 	get: function() {
-		return this.shapes;
+		return this.sticks;
 	},
 	shapes_index: function(prices) {
 		for (let i = 0; i < prices.length; i++) {
@@ -174,7 +174,6 @@ var shapes = {
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
 			if (!this.candlestick()) throw 'this.candlestick';
-			//if (i == 229) break;
 		}
 		console.log(this.sticks);
 		return true;
