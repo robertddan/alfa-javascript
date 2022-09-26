@@ -147,6 +147,8 @@ var shapes = {
 	time_lock: false,
 	shapes: null,
 	sticks: null,
+	lestest: null,
+	key: 0,
 	constructor: function(prices) {
 		try {
 			// set shapes
@@ -172,17 +174,30 @@ var shapes = {
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
 		
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
-		if (this.sticks[this.index.getTime()] == undefined) this.sticks[this.index.getTime()] = new Array();
 		
-		this.sticks[this.index.getTime()] = new Array(
+		
+		let candle = new Array(
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
 			closeoutAsk.shift(0),
 			closeoutAsk.pop()
 		);
+		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		
+		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
+		this.sticks[this.key] = new Array(...candle); 
+		/*
+		= new Array(
+			Math.min(...closeoutAsk), 
+			Math.max(...closeoutAsk),
+			closeoutAsk.shift(0),
+			closeoutAsk.pop()
+		);
+		*/
 		//this.sticks.length = 10;
 		console.log(this.sticks.length);
+		
+		this.lestest = this.index.getTime();
 		return true;
   },
 	setup: function(price) {
