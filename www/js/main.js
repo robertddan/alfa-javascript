@@ -155,7 +155,7 @@ var prices = {
 var sticks = {
 	index: 0,
 	index_lock: false,
-	time: 1, //min 1
+	time: 1, //min 1 min
 	time_lock: false,
 	sticks: [],
 	constructor: function(list) {
@@ -172,7 +172,7 @@ var sticks = {
 		for (let i = 0; i < prices.length; i++) {
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
-			if (!this.enclose(time)) throw 'this.enclose';
+			//if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
 		}
@@ -180,11 +180,12 @@ var sticks = {
 		return true;
   },
 	structure: function() {
-		if (this.time_lock !== true) console.log(this.time_lock);
+		//console.log(this.time_lock);
+		//if (this.time_lock !== true) console.log(this.time_lock);
 		return true;
   },
 	setup: function(price) {
-		if (this.time_lock !== true) return true;
+		//if (this.time_lock !== true) return true;
 		if (!Array.isArray(this.sticks[this.index])) this.sticks[this.index] = [];
 		this.sticks[this.index].push(price);
 		return true;
@@ -204,7 +205,8 @@ var sticks = {
 		indexDate.setDate(this.index.getDate());
 		indexDate.setHours(this.index.getHours());
 		indexDate.setMinutes(this.index.getMinutes());
-		indexDate.setSeconds(0);
+		indexDate.setSeconds(30);
+		indexDate.setMilliseconds(this.index.getMilliseconds());
 		
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
@@ -212,11 +214,14 @@ var sticks = {
 		newDate.setDate(time.getDate());
 		newDate.setHours(time.getHours());
 		newDate.setMinutes(time.getMinutes());
-		newDate.setSeconds(0);
+		newDate.setSeconds(time.getSeconds());
+		newDate.setMilliseconds(time.getMilliseconds());
+		
+		console.log(['indexDate', indexDate, 'newDate', newDate]);
 		
 		if (this.index_lock == false) this.index = indexDate;
 		if (this.index_lock == false) this.index_lock = true;
-		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
+		if (indexDate.getTime() !== newDate.getTime()) this.index = indexDate;
 		return true;
   }
 };
@@ -235,3 +240,5 @@ function init(value = false) {
 
 document.addEventListener('DOMContentLoaded', () => init(false));
 document.addEventListener('PricesLoaded', () => init(true));
+
+
