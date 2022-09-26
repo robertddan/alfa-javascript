@@ -228,7 +228,6 @@ var shapes = {
   }
 };
 
-
 var sticks = {
 	chart: window.chart,
 	scale: null,
@@ -236,7 +235,7 @@ var sticks = {
 		try {
 			// set sticks
 			console.log('sticks.constructor');
-			//if (!this.price_scale(list)) throw 'sticks.price_scale';
+			if (!this.price_scale(list)) throw 'sticks.price_scale';
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -250,7 +249,9 @@ var sticks = {
 		//if (this.scale !== null) return true;
 		
 		console.log(list);
-		console.log(list.pop());
+		console.log(list['1659425100705']);
+		console.log(list[1659425100705]);
+		//console.log(list.pop());
 		console.log(list.length);
 		console.log(Array.prototype.pop.call(list));
 		
