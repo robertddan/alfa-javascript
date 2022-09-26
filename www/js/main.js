@@ -186,7 +186,6 @@ var shapes = {
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
 		if (this.sticks[this.index.getTime()] == undefined) this.sticks[this.index.getTime()] = new Array();
-		
 		this.sticks[this.index.getTime()] = [
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
@@ -334,7 +333,7 @@ function init(value = false) {
 		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
-		//if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		return true;
 	} catch (e) {
 		console.error(e);
