@@ -171,8 +171,8 @@ var shapes = {
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
 		let candle = new Array(
-			Math.min(...closeoutAsk), 
-			Math.max(...closeoutAsk),
+			Math.min(...closeoutAsk).toString(), 
+			Math.max(...closeoutAsk).toString(),
 			closeoutAsk[0],
 			closeoutAsk[closeoutAsk.length - 1]
 		);
@@ -218,7 +218,7 @@ var shapes = {
 		if (this.index_first == false) this.index_first = true;
 		
 		if (indexDate.getTime() < newDate.getTime()) this.index = indexDate;
-
+		
 		return true;
   }
 };
@@ -229,7 +229,8 @@ var sticks = {
 	constructor: function(list) {
 		try {
 			// set sticks
-			if (!this.price_scale(list)) throw 'sticks.price_scale';
+			if (!this.scale(list)) throw 'sticks.scale';
+			//console.log(this.scale);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -239,60 +240,22 @@ var sticks = {
 		console.log(this.chart.svg);
 		return true;
   },
-	price_scale: function(list) {
-		return console.log(list);
+	scale: function(list) { 
 		if (this.scale !== null) return true;
 		let prices = new Array(list[0], list[list.length - 1]);
-		let scale = 0;
 		for (let i = 0; i < prices.length; i++) {
-			scale = prices[i].map(
-				(x) => console.log(x) //x.split('.')[1]
-			);
-			//console.log(prices[i]);
-			//text.split(" ");
+			for (let j = 0; j < prices[i].length; j++) {
+				let len = prices[i][j].split('.')[1].length;
+				if (this.scale < len) this.scale = len;
+			}
 		}
-		
-		console.log(scale);
-		
-/*
-		//console.log(prices);
-		console.log(list);
-		console.log(list['1659425100705']);
-		console.log(list[1659425100705]);
-		//console.log(list.pop());
-		console.log(list.length);
-		console.log(Array.prototype.pop.call(list));
-*/
 		return true;
   },
-	ratio: function() {
+	ratio: function(list) {
+		
+		
 		
 /*
-  {
-    if (empty($this->aaView)) return false; 
-    $i = 0;
-    foreach ($this->aaView as $aPrice)
-    {
-      $fPriceAsk = explode(".", $aPrice['closeoutAsk']);
-      $fPriceBid = explode(".", $aPrice['closeoutBid']);
-  
-      if (count($fPriceAsk) > 1)
-      {
-        $iScaleAsk = strlen($fPriceAsk[1]); #zeros
-        $iScaleBid = strlen($fPriceBid[1]); #zeros
-      }
-      else {
-        $iScaleAsk = 0;
-        $iScaleBid = 0;
-      }
-
-      $this->iScale = max(array($iScaleAsk, $iScaleBid));
-      if ($i++ == 5) break;
-    }
-
-    return true;
-  }
-	
   {
     bcscale($this->iScale);
     $sPrice = floatval(number_format($sPrice, $this->iScale, '.', ''));
@@ -324,6 +287,7 @@ var sticks = {
     return 1;
   }
 */
+		
 	}
 };
 
@@ -343,5 +307,9 @@ function init(value = false) {
 
 document.addEventListener('DOMContentLoaded', () => init(false));
 document.addEventListener('PricesLoaded', () => init(true));
+
+
+
+
 
 
