@@ -2,9 +2,9 @@
 
 var chart = {
 	svg: {},
-	height: 420,
-	width: 600,
-	grid_gap: 30,
+	height: 890,
+	width: 1240,
+	grid_gap: 60,
 	constructor: function(sDivId) {
 		try {
 			// chart
@@ -181,7 +181,7 @@ var shapes = {
 			closeoutAsk.pop()
 		];
 		
-		console.log(this.sticks.pop());
+		console.log(this.sticks);
 		return true;
   },
 	setup: function(price) {

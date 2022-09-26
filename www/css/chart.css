@@ -23,13 +23,13 @@ main {
 main #sidebar { 
 	color: red;
 	float: left;
-	width: 28%;
+	width: 15%;
 }
 
 main #content { 
 	color: red;
 	float: right;
-	width: 72%;
+	width: 85%;
 }   
 
 #chart {
