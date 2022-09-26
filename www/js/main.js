@@ -7,14 +7,14 @@ var response = {
 };
 */
 var chart = {
-	height: '',
-	width: '',
-	grid_gap: '',
+	svg: {},
+	height: 420,
+	width: 600,
+	grid_gap: 30,
 	constructor: function(sDivId) {
 		try {
 			// chart
 			console.log('chart.constructor');
-			if (!this.chart_setup()) throw 'chart_setup';
 			if (!this.chart_stage()) throw 'chart_stage';
 			if (!this.chart_limits()) throw 'chart_limits';
 			if (!this.chart_grid()) throw 'chart_grid';
@@ -23,12 +23,6 @@ var chart = {
 		} catch (e) {
 			console.error(e);
 		}
-  },
-	chart_setup: function() {
-		this.height = 420;
-		this.width = 600;
-		this.grid_gap = 30;
-		return true;
   },
 	chart_stage: function() {
 		this.xmlns = 'http://www.w3.org/2000/svg';
@@ -179,23 +173,38 @@ var shapes = {
 			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
-			if (i == 229) break;
+			if (!this.candlestick()) throw 'this.candlestick';
+			//if (i == 229) break;
 		}
-		//console.log(this.shapes);
+		console.log(this.sticks);
+		return true;
+  },
+	candlestick: function() {
+		if (this.shapes[this.index] == undefined) return true;
+		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		this.sticks[this.index.getTime()] = [
+			Math.min(...closeoutAsk), 
+			Math.max(...closeoutAsk),
+			closeoutAsk.shift(0),
+			closeoutAsk.pop()
+		];
 		return true;
   },
 	structure: function() {
-		console.log(this.shapes[this.index.getTime()]);
-		
-		
-		console.log(this.shapes[this.index.getTime()];
-		
+		if (this.shapes[this.index] == undefined) return true;
+		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		this.shapes[this.index]['stick'] = [
+			Math.min(...closeoutAsk), 
+			Math.max(...closeoutAsk),
+			closeoutAsk.shift(0),
+			closeoutAsk.pop()
+		];
 		return true;
   },
 	setup: function(price) {
 		if (this.time_lock !== true) return true;
-		if (!Array.isArray(this.shapes[this.index.getTime()])) this.shapes[this.index.getTime()] = [];
-		this.shapes[this.index.getTime()].push(price);
+		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
+		this.shapes[this.index].push(price);
 		return true;
   },
 	enclose: function(time) {
