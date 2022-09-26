@@ -154,8 +154,9 @@ var prices = {
 
 var sticks = {
 	index: 0,
-	index_lock: false,
-	time: 1, //min 1 min
+	index_first: false,
+	index_trained: false,
+	time: 1, //ms //min 1 min
 	time_lock: false,
 	sticks: [],
 	constructor: function(list) {
@@ -196,29 +197,35 @@ var sticks = {
 		return true;
   },
 	comparison: function(time) {
-		if (this.index_lock == false) this.index = time;
-		// sort per seconds
+		if (this.index_first == false) this.index = time;
+		
 		let indexDate = new Date();
 		indexDate.setFullYear(this.index.getFullYear());
 		indexDate.setMonth(this.index.getMonth());
 		indexDate.setDate(this.index.getDate());
 		indexDate.setHours(this.index.getHours());
 		indexDate.setMinutes(this.index.getMinutes());
-		indexDate.setSeconds(this.index.getSeconds());
-		indexDate.setMilliseconds(0);
-
+		indexDate.setSeconds(0);
+		//indexDate.setSeconds(this.index.getSeconds());
+		//indexDate.setMilliseconds(0);
+		
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
 		newDate.setMonth(time.getMonth());
 		newDate.setDate(time.getDate());
 		newDate.setHours(time.getHours());
 		newDate.setMinutes(time.getMinutes());
-		newDate.setSeconds(time.getSeconds());
-		newDate.setMilliseconds(0);
-
-		if (this.index_lock == false) this.index = indexDate;
-		if (this.index_lock == false) this.index_lock = true;
-		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
+		newDate.setSeconds(0);
+		//newDate.setSeconds(time.getSeconds());
+		//newDate.setMilliseconds(0);
+		
+		if (this.index_first == false) this.index = indexDate;
+		if (this.index_first == false) this.index_first = true;
+		
+		// if is not the same second anymore 12:12:00 !== 12:12:01
+		if (indexDate.getTime() !== newDate.getTime()) {this.index = newDate; this.index_trained = true;}
+		if (!this.index_trained) return true;
+		
 		return true;
   }
 };
