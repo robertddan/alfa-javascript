@@ -175,7 +175,6 @@ var shapes = {
 			if (!this.structure()) throw 'this.structure';
 			if (!this.candlestick()) throw 'this.candlestick';
 		}
-		console.log(this.sticks);
 		return true;
   },
 	candlestick: function() {
@@ -240,8 +239,9 @@ var shapes = {
   }
 };
 
-/*
+
 var sticks = {
+	chart: window.chart,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -253,24 +253,18 @@ var sticks = {
 		}
   },
 	sticks_index: function(prices) {
-		for (let i = 0; i < prices.length; i++) {
-			const time = new Date(prices[i].time);
-			if (!this.comparison(time)) throw 'this.comparison';
-			if (!this.enclose(time)) throw 'this.enclose';
-			if (!this.setup(prices[i])) throw 'this.setup';
-		}
-		console.log(this.shapes);
+		console.log(this.chart.svg);
 		return true;
   }
 };
-*/
+
 
 function init(value = false) {
 	try {
 		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
-		//if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		return true;
 	} catch (e) {
 		console.error(e);
