@@ -151,8 +151,8 @@ var shapes = {
 	index_first: false,
 	time: 2, // min
 	time_lock: false,
-	shapes: [],
-	sticks: [],
+	shapes: null,
+	sticks: null,
 	constructor: function(list) {
 		try {
 			// set shapes
@@ -167,19 +167,26 @@ var shapes = {
 		return this.sticks;
 	},
 	shapes_index: function(prices) {
-		for (let i = 0; i < prices.length; i++) {
-			const time = new Date(prices[i].time);
-			if (!this.comparison(time)) throw 'this.comparison';
-			if (!this.enclose(time)) throw 'this.enclose';
-			if (!this.setup(prices[i])) throw 'this.setup';
-			if (!this.structure()) throw 'this.structure';
+		try {
+			for (let i = 0; i < prices.length; i++) {
+				const time = new Date(prices[i].time);
+				if (!this.comparison(time)) throw 'this.comparison';
+				if (!this.enclose(time)) throw 'this.enclose';
+				if (!this.setup(prices[i])) throw 'this.setup';
+				if (!this.structure()) throw 'this.structure';
+			}
+			console.log(this.sticks);
+			return true;
+		} catch (e) {
+			console.error(e);
 		}
-		//console.log(this.sticks);
-		return true;
   },
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		if (!Array.isArray(this.sticks)) this.sticks = new Array();
+		if (this.sticks[this.index.getTime()] == undefined) this.sticks[this.index.getTime()] = new Array();
+		
 		this.sticks[this.index.getTime()] = [
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
@@ -189,8 +196,10 @@ var shapes = {
 		return true;
   },
 	setup: function(price) {
+		
+		if (!Array.isArray(this.shapes)) this.shapes = new Array();
 		if (this.time_lock !== true) return true;
-		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
+		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = new Array();
 		this.shapes[this.index].push(price);
 		return true;
   },
@@ -325,7 +334,7 @@ function init(value = false) {
 		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
-		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		//if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		return true;
 	} catch (e) {
 		console.error(e);
