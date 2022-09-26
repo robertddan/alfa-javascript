@@ -1,11 +1,5 @@
 'use strict';
-/*
-var response = {
-	addPrices: function() {
-		prices.state = true;
-  }
-};
-*/
+
 var chart = {
 	svg: {},
 	height: 420,
@@ -153,11 +147,18 @@ var shapes = {
 	time_lock: false,
 	shapes: null,
 	sticks: null,
-	constructor: function(list) {
+	constructor: function(prices) {
 		try {
 			// set shapes
 			console.log('shapes.constructor');
-			if (!this.shapes_index(list)) throw 'shapes_index';
+			for (let i = 0; i < prices.length; i++) {
+				const time = new Date(prices[i].time);
+				if (!this.comparison(time)) throw 'this.comparison';
+				if (!this.enclose(time)) throw 'this.enclose';
+				if (!this.setup(prices[i])) throw 'this.setup';
+				if (!this.structure()) throw 'this.structure';
+			}
+			//console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -166,21 +167,6 @@ var shapes = {
 	get: function() {
 		return this.sticks;
 	},
-	shapes_index: function(prices) {
-		try {
-			for (let i = 0; i < prices.length; i++) {
-				const time = new Date(prices[i].time);
-				if (!this.comparison(time)) throw 'this.comparison';
-				if (!this.enclose(time)) throw 'this.enclose';
-				if (!this.setup(prices[i])) throw 'this.setup';
-				if (!this.structure()) throw 'this.structure';
-			}
-			console.log(this.sticks);
-			return true;
-		} catch (e) {
-			console.error(e);
-		}
-  },
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
@@ -199,7 +185,6 @@ var shapes = {
 		return true;
   },
 	setup: function(price) {
-		
 		if (!Array.isArray(this.shapes)) this.shapes = new Array();
 		if (this.time_lock !== true) return true;
 		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = new Array();
@@ -259,14 +244,14 @@ var sticks = {
   },
 	price_scale: function(list) {
 		//if (this.scale !== null) return true;
-		
+/*
 		console.log(list);
 		console.log(list['1659425100705']);
 		console.log(list[1659425100705]);
 		//console.log(list.pop());
 		console.log(list.length);
 		console.log(Array.prototype.pop.call(list));
-		
+*/
 		return true;
   },
 	ratio: function() {

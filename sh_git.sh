@@ -8,6 +8,7 @@ git status
 #varname=${varname:-message} #📋📋📋✏️✏️✏️📜📜📜} # 👌👌👌🙏🙏🙏✌️✌️✌️
 
 git commit -m "📋📋📋✏️✏️✏️📜📜📜" 
-#git remote add origin https://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@github.com/johnidevo/javascript.git
+git remote add origin https://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@github.com/johnidevo/javascript.git
 git push origin master
+
 
