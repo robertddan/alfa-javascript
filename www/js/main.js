@@ -172,7 +172,7 @@ var sticks = {
 		for (let i = 0; i < prices.length; i++) {
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
-			//if (!this.enclose(time)) throw 'this.enclose';
+			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
 		}
@@ -180,12 +180,11 @@ var sticks = {
 		return true;
   },
 	structure: function() {
-		//console.log(this.time_lock);
-		//if (this.time_lock !== true) console.log(this.time_lock);
+		if (this.time_lock !== true) console.log(this.time_lock);
 		return true;
   },
 	setup: function(price) {
-		//if (this.time_lock !== true) return true;
+		if (this.time_lock !== true) return true;
 		if (!Array.isArray(this.sticks[this.index])) this.sticks[this.index] = [];
 		this.sticks[this.index].push(price);
 		return true;
@@ -198,16 +197,16 @@ var sticks = {
   },
 	comparison: function(time) {
 		if (this.index_lock == false) this.index = time;
-	
+		// sort per seconds
 		let indexDate = new Date();
 		indexDate.setFullYear(this.index.getFullYear());
 		indexDate.setMonth(this.index.getMonth());
 		indexDate.setDate(this.index.getDate());
 		indexDate.setHours(this.index.getHours());
 		indexDate.setMinutes(this.index.getMinutes());
-		indexDate.setSeconds(30);
-		indexDate.setMilliseconds(this.index.getMilliseconds());
-		
+		indexDate.setSeconds(this.index.getSeconds());
+		indexDate.setMilliseconds(0);
+
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
 		newDate.setMonth(time.getMonth());
@@ -215,13 +214,11 @@ var sticks = {
 		newDate.setHours(time.getHours());
 		newDate.setMinutes(time.getMinutes());
 		newDate.setSeconds(time.getSeconds());
-		newDate.setMilliseconds(time.getMilliseconds());
-		
-		console.log(['indexDate', indexDate, 'newDate', newDate]);
-		
+		newDate.setMilliseconds(0);
+
 		if (this.index_lock == false) this.index = indexDate;
 		if (this.index_lock == false) this.index_lock = true;
-		if (indexDate.getTime() !== newDate.getTime()) this.index = indexDate;
+		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
 		return true;
   }
 };
