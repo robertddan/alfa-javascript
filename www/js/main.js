@@ -8,7 +8,6 @@ var chart = {
 	constructor: function(sDivId) {
 		try {
 			// chart
-			console.log('chart.constructor');
 			if (!this.chart_stage()) throw 'chart_stage';
 			if (!this.chart_limits()) throw 'chart_limits';
 			if (!this.chart_grid()) throw 'chart_grid';
@@ -82,7 +81,6 @@ var prices = {
 	constructor: function(sDivId) {
 		try {
 			// get data
-			console.log('prices.constructor');
 			if (!this.prices_xhr()) throw 'prices_xhr';
 			if (!this.prices_get()) throw 'prices_get';
 			return true;
@@ -152,7 +150,6 @@ var shapes = {
 	constructor: function(prices) {
 		try {
 			// set shapes
-			console.log('shapes.constructor');
 			for (let i = 0; i < prices.length; i++) {
 				const time = new Date(prices[i].time);
 				if (!this.comparison(time)) throw 'this.comparison';
@@ -172,31 +169,16 @@ var shapes = {
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
-		
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
-		
-		
 		let candle = new Array(
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
-			closeoutAsk.shift(0),
-			closeoutAsk.pop()
+			closeoutAsk[0],
+			closeoutAsk[closeoutAsk.length - 1]
 		);
-		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
-		
 		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
-		this.sticks[this.key] = new Array(...candle); 
-		/*
-		= new Array(
-			Math.min(...closeoutAsk), 
-			Math.max(...closeoutAsk),
-			closeoutAsk.shift(0),
-			closeoutAsk.pop()
-		);
-		*/
-		//this.sticks.length = 10;
-		console.log(this.sticks.length);
-		
+		this.sticks[this.key] = new Array(...candle);
+		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		this.lestest = this.index.getTime();
 		return true;
   },
@@ -247,7 +229,6 @@ var sticks = {
 	constructor: function(list) {
 		try {
 			// set sticks
-			console.log('sticks.constructor');
 			if (!this.price_scale(list)) throw 'sticks.price_scale';
 			return true;
 		} catch (e) {
@@ -259,9 +240,22 @@ var sticks = {
 		return true;
   },
 	price_scale: function(list) {
-		//if (this.scale !== null) return true;
-		console.log(list);
+		return console.log(list);
+		if (this.scale !== null) return true;
+		let prices = new Array(list[0], list[list.length - 1]);
+		let scale = 0;
+		for (let i = 0; i < prices.length; i++) {
+			scale = prices[i].map(
+				(x) => console.log(x) //x.split('.')[1]
+			);
+			//console.log(prices[i]);
+			//text.split(" ");
+		}
+		
+		console.log(scale);
+		
 /*
+		//console.log(prices);
 		console.log(list);
 		console.log(list['1659425100705']);
 		console.log(list[1659425100705]);
