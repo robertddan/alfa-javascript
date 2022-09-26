@@ -184,14 +184,18 @@ var shapes = {
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
 		if (this.sticks[this.index.getTime()] == undefined) this.sticks[this.index.getTime()] = new Array();
+		
 		this.sticks[this.index.getTime()] = [
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
 			closeoutAsk.shift(0),
 			closeoutAsk.pop()
 		];
+		
+		console.log(this.sticks.pop());
 		return true;
   },
 	setup: function(price) {
