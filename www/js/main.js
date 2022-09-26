@@ -152,42 +152,46 @@ var prices = {
   }
 };
 
-var sticks = {
+var shapes = {
 	index: 0,
 	index_first: false,
-	index_trained: false,
-	time: 1, //ms //min 1 min
+	time: 2, // min
 	time_lock: false,
+	shapes: [],
 	sticks: [],
 	constructor: function(list) {
 		try {
-			// set sticks
-			console.log('sticks.constructor');
-			if (!this.sticks_index(list)) throw 'sticks_index';
+			// set shapes
+			console.log('shapes.constructor');
+			if (!this.shapes_index(list)) throw 'shapes_index';
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	sticks_index: function(prices) {
+	get: function() {
+		return this.shapes;
+	},
+	shapes_index: function(prices) {
 		for (let i = 0; i < prices.length; i++) {
 			const time = new Date(prices[i].time);
 			if (!this.comparison(time)) throw 'this.comparison';
 			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
+			//if (i == 129) break;
 		}
-		console.log(this.sticks);
+		console.log(this.shapes);
 		return true;
   },
 	structure: function() {
-		if (this.time_lock !== true) console.log(this.time_lock);
+		console.log(this.shapes[this.index]);
 		return true;
   },
 	setup: function(price) {
 		if (this.time_lock !== true) return true;
-		if (!Array.isArray(this.sticks[this.index])) this.sticks[this.index] = [];
-		this.sticks[this.index].push(price);
+		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
+		this.shapes[this.index].push(price);
 		return true;
   },
 	enclose: function(time) {
@@ -206,8 +210,6 @@ var sticks = {
 		indexDate.setHours(this.index.getHours());
 		indexDate.setMinutes(this.index.getMinutes());
 		indexDate.setSeconds(0);
-		//indexDate.setSeconds(this.index.getSeconds());
-		//indexDate.setMilliseconds(0);
 		
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
@@ -216,25 +218,48 @@ var sticks = {
 		newDate.setHours(time.getHours());
 		newDate.setMinutes(time.getMinutes());
 		newDate.setSeconds(0);
-		//newDate.setSeconds(time.getSeconds());
-		//newDate.setMilliseconds(0);
 		
 		if (this.index_first == false) this.index = indexDate;
 		if (this.index_first == false) this.index_first = true;
 		
 		// if is not the same second anymore 12:12:00 !== 12:12:01
-		if (indexDate.getTime() !== newDate.getTime()) {this.index = newDate; this.index_trained = true;}
-		if (!this.index_trained) return true;
+		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
 		
 		return true;
   }
 };
 
+/*
+var sticks = {
+	constructor: function(list) {
+		try {
+			// set sticks
+			console.log('sticks.constructor');
+			if (!this.sticks_index(list)) throw 'sticks_index';
+			return true;
+		} catch (e) {
+			console.error(e);
+		}
+  },
+	sticks_index: function(prices) {
+		for (let i = 0; i < prices.length; i++) {
+			const time = new Date(prices[i].time);
+			if (!this.comparison(time)) throw 'this.comparison';
+			if (!this.enclose(time)) throw 'this.enclose';
+			if (!this.setup(prices[i])) throw 'this.setup';
+		}
+		console.log(this.shapes);
+		return true;
+  }
+};
+*/
+
 function init(value = false) {
 	try {
 		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
-		if (value) if (!sticks.constructor(prices.get())) throw 'sticks.constructor';
+		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
+		//if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		return true;
 	} catch (e) {
 		console.error(e);
