@@ -179,19 +179,23 @@ var shapes = {
 			if (!this.enclose(time)) throw 'this.enclose';
 			if (!this.setup(prices[i])) throw 'this.setup';
 			if (!this.structure()) throw 'this.structure';
-			//if (i == 129) break;
+			if (i == 229) break;
 		}
-		console.log(this.shapes);
+		//console.log(this.shapes);
 		return true;
   },
 	structure: function() {
-		console.log(this.shapes[this.index]);
+		console.log(this.shapes[this.index.getTime()]);
+		
+		
+		console.log(this.shapes[this.index.getTime()];
+		
 		return true;
   },
 	setup: function(price) {
 		if (this.time_lock !== true) return true;
-		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = [];
-		this.shapes[this.index].push(price);
+		if (!Array.isArray(this.shapes[this.index.getTime()])) this.shapes[this.index.getTime()] = [];
+		this.shapes[this.index.getTime()].push(price);
 		return true;
   },
 	enclose: function(time) {
@@ -208,7 +212,7 @@ var shapes = {
 		indexDate.setMonth(this.index.getMonth());
 		indexDate.setDate(this.index.getDate());
 		indexDate.setHours(this.index.getHours());
-		indexDate.setMinutes(this.index.getMinutes());
+		indexDate.setMinutes(this.index.getMinutes() + this.time);
 		indexDate.setSeconds(0);
 		
 		let newDate = new Date();
@@ -222,9 +226,8 @@ var shapes = {
 		if (this.index_first == false) this.index = indexDate;
 		if (this.index_first == false) this.index_first = true;
 		
-		// if is not the same second anymore 12:12:00 !== 12:12:01
-		if (indexDate.getTime() !== newDate.getTime()) this.index = newDate;
-		
+		if (indexDate.getTime() < newDate.getTime()) this.index = indexDate;
+
 		return true;
   }
 };
