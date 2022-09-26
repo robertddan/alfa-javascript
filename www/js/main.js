@@ -159,7 +159,6 @@ var shapes = {
 				if (!this.structure()) throw 'this.structure';
 			}
 			
-			console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -171,25 +170,24 @@ var shapes = {
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
-		
-		//let a = new Array();
-		//a[this.index] = closeoutAsk;
-		//console.log(closeoutAsk);
-		
+
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
-		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
+		if (this.sticks[this.key] === undefined) this.sticks[this.key] = new Array();
 		
-		this.sticks[this.key] = new Array(
+		let stick = new Array(
 			Math.min(...closeoutAsk).toString(), 
 			Math.max(...closeoutAsk).toString(),
 			closeoutAsk[0],
 			closeoutAsk[closeoutAsk.length - 1]
 		);
-		console.log(this.sticks[this.key]);
 		
+		this.sticks[this.key] = stick;
 		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		
-		console.log(this.key);
+		
+		console.log(this.sticks[this.key]);
+		
+		
 		this.lestest = this.index.getTime();
 		return true;
   },
