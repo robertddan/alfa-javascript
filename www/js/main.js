@@ -147,6 +147,7 @@ var shapes = {
 	sticks: null,
 	lestest: null,
 	key: 0,
+	prices: [],
 	constructor: function(prices) {
 		try {
 			// set shapes
@@ -157,7 +158,8 @@ var shapes = {
 				if (!this.setup(prices[i])) throw 'this.setup';
 				if (!this.structure()) throw 'this.structure';
 			}
-			//console.log(this.sticks);
+			
+			console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -169,16 +171,25 @@ var shapes = {
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		
+		//let a = new Array();
+		//a[this.index] = closeoutAsk;
+		//console.log(closeoutAsk);
+		
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
-		let candle = new Array(
+		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
+		
+		this.sticks[this.key] = new Array(
 			Math.min(...closeoutAsk).toString(), 
 			Math.max(...closeoutAsk).toString(),
 			closeoutAsk[0],
 			closeoutAsk[closeoutAsk.length - 1]
 		);
-		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
-		this.sticks[this.key] = new Array(...candle);
+		console.log(this.sticks[this.key]);
+		
 		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
+		
+		console.log(this.key);
 		this.lestest = this.index.getTime();
 		return true;
   },
@@ -229,7 +240,8 @@ var sticks = {
 	constructor: function(list) {
 		try {
 			// set sticks
-			if (!this.scale(list)) throw 'sticks.scale';
+			//if (!this.scale(list)) throw 'sticks.scale';
+			//if (!this.ratio(list)) throw 'sticks.ratio';
 			//console.log(this.scale);
 			return true;
 		} catch (e) {
@@ -251,11 +263,20 @@ var sticks = {
 		}
 		return true;
   },
-	ratio: function(list) {
+	ratio: function(prices) { // parseFloat
+		console.log(prices);
+		for (let i = 0; i < prices.length; i++) {
+			for (let j = 0; j < prices[i].length; j++) {
+				//console.log();
+				console.log(parseFloat(prices[i][j]));
+			}
+		}
 		
 		
 		
 /*
+#prices
+
   {
     bcscale($this->iScale);
     $sPrice = floatval(number_format($sPrice, $this->iScale, '.', ''));
@@ -283,6 +304,8 @@ var sticks = {
     $fRation = bcdiv($difChart, $difPrice);
     $this->fRatio = ($fRation != 0 ? $fRation: 0.2);
     $this->fMinPrice = $minPrice;
+		
+		
     bcscale(0); # reset
     return 1;
   }
