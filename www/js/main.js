@@ -174,14 +174,15 @@ var shapes = {
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
 		if (this.sticks[this.index.getTime()] == undefined) this.sticks[this.index.getTime()] = new Array();
 		
-		this.sticks[this.index.getTime()] = [
+		this.sticks[this.index.getTime()] = new Array(
 			Math.min(...closeoutAsk), 
 			Math.max(...closeoutAsk),
 			closeoutAsk.shift(0),
 			closeoutAsk.pop()
-		];
+		);
 		
-		console.log(this.sticks);
+		//this.sticks.length = 10;
+		console.log(this.sticks.length);
 		return true;
   },
 	setup: function(price) {
@@ -244,6 +245,7 @@ var sticks = {
   },
 	price_scale: function(list) {
 		//if (this.scale !== null) return true;
+		console.log(list);
 /*
 		console.log(list);
 		console.log(list['1659425100705']);
