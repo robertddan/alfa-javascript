@@ -229,9 +229,15 @@ var sticks = {
 	ratio: null,
 	min: null,
 	sticks: null,
+	xmlns: '',
+	width: 12,
+	svg: null,
 	constructor: function(list) {
 		try {
 			// set sticks
+			this.xmlns = 'http://www.w3.org/2000/svg';
+			this.svg = window.chart.svg;
+			
 			if (!this.sticks_scale(list)) throw 'sticks.sticks_scale';
 			if (!this.sticks_ratio(list)) throw 'sticks.sticks_ratio';
 			if (!this.sticks_architecture(list)) throw 'sticks.sticks_architecture';
@@ -242,11 +248,41 @@ var sticks = {
 			console.error(e);
 		}
   },
-	sticks_view: function() {
-		for (const [key, value] of Object.entries(this.sticks)) {
-			console.log(value);
-			// <rect x="120" width="100" height="100" rx="15" />
+	sticks_chart: function(chart) {
+		let candlestick = document.createElementNS(this.xmlns, 'rect');
+		candlestick.setAttributeNS(null, 'x', '0');
+		candlestick.setAttributeNS(null, 'y', chart.open);
+		candlestick.setAttributeNS(null, 'width', this.height);
+		candlestick.setAttributeNS(null, 'height', (chart.open - chart.close) );
+		candlestick.setAttributeNS(null, 'fill', 'Red');
 			
+/*
+		rect.setAttributeNS( null,'x',x );
+		rect.setAttributeNS( null,'y',y );
+		rect.setAttributeNS( null,'width','50' );
+		rect.setAttributeNS( null,'height','50' );
+		rect.setAttributeNS( null,'fill','#'+Math.round( 0xffffff * Math.random()).toString(16) );
+		document.getElementById( 'svgOne' ).appendChild( rect );
+*/
+/*
+<rect 
+	x="{{ xx1 - 6}}"
+	y="{{ 2555 - price.chart_open }}" 
+	width="12" 
+	height="{{ price.chart_open - price.chart_close }}"
+	style="fill:none;stroke:DodgerBlue;stroke-width:1;" {# fill:DodgerBlue; - Red - DodgerBlue #}
+	opacity="1"
+/>
+*/
+		
+		// append
+		this.svg.appendChild(candlestick);
+		return true;
+  },
+	sticks_view: function() {
+		for (const [key, value] of Object.entries(this.sticks)) {		
+			this.sticks_chart(value);
+			// <rect x="120" width="100" height="100" rx="15" />
 		}
 		
 		return true;
