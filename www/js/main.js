@@ -157,9 +157,11 @@ var shapes = {
 	prices: [],
 	debug: 0,
 	constructor: function(prices) {
+		console.log(prices);
 		try {
 			// set shapes
 			for (let i = 0; i < prices.length; i++) {
+				if (i < 550) continue;
 				const time = new Date(prices[i].time);
 				if (!this.comparison(time)) throw 'this.comparison';
 				if (!this.enclose(time)) throw 'this.enclose';
@@ -345,11 +347,7 @@ var sticks = {
 		return true;
   },
 	sticks_view: function() {
-		for (const [key, value] of Object.entries(this.sticks)) {		
-			this.sticks_chart(value);
-			// <rect x="120" width="100" height="100" rx="15" />
-		}
-		
+		for (const [key, value] of Object.entries(this.sticks)) this.sticks_chart(value);
 		return true;
   },
 	sticks_architecture: function(prices) {
