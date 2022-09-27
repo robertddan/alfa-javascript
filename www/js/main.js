@@ -238,8 +238,8 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 10,
-	chartMin: 500,
-	chartMax: 300,
+	chartMin: 450,
+	chartMax: 350,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -510,13 +510,13 @@ var settings = {
 		if (position == 0) window.sticks.chartMin = newvalue;
 		else window.sticks.chartMax = newvalue;
 		
-			const boxes = document.querySelectorAll('.chart_group');
-
-			boxes.forEach(box => box.remove());
-
+		const boxes = document.querySelectorAll('.chart_group');
+		boxes.forEach(box => box.remove());
 		
 		if (!sticks.constructor(window.shapes.get())) throw 'sticks.constructor';
-console.log(newvalue);
+		
+		console.log(newvalue);
+		
 	}
 };
 
