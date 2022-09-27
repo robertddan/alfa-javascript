@@ -228,30 +228,41 @@ var sticks = {
 	scale: null,
 	ratio: null,
 	min: null,
+	sticks: null,
 	constructor: function(list) {
 		try {
 			// set sticks
 			if (!this.sticks_scale(list)) throw 'sticks.sticks_scale';
 			if (!this.sticks_ratio(list)) throw 'sticks.sticks_ratio';
-			if (!this.sticks_view(list)) throw 'sticks.sticks_view';
-			//console.log(this.scale);
-			
-
+			if (!this.sticks_architecture(list)) throw 'sticks.sticks_architecture';
+			if (!this.sticks_view()) throw 'sticks.sticks_view';
+			console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	sticks_view: function(prices) {
-		let len = Object.keys(prices).length;
-		for (const [key, value] of Object.entries(prices)) {
-			for (let j = 0; j < value.length; j++) {
-				//allPrices.push(value[j]);
-				console.log(this.price_ratio(value[j]));
-			}
+	sticks_view: function() {
+		for (const [key, value] of Object.entries(this.sticks)) {
+			console.log(value);
+			// <rect x="120" width="100" height="100" rx="15" />
+			
 		}
 		
-		console.log(this.chart.svg);
+		return true;
+  },
+	sticks_architecture: function(prices) {
+		if (this.sticks == null) this.sticks = Object.create({});
+		let len = Object.keys(prices).length;
+		let i = 0;
+		let keys = ['min', 'max', 'open', 'close'];
+		for (const [key, value] of Object.entries(prices)) {
+			for (let j = 0; j < value.length; j++) {
+				if (this.sticks[i] == undefined) this.sticks[i] = new Map();
+				this.sticks[i].set(keys[j], this.price_ratio(value[j]));
+			}
+			i = i + 1;
+		}
 		return true;
   },
 	price_ratio: function(price) {
@@ -274,9 +285,7 @@ var sticks = {
 		let allPrices = [];
 		let len = Object.keys(prices).length;
 		for (const [key, value] of Object.entries(prices)) {
-			for (let j = 0; j < value.length; j++) {
-				allPrices.push(value[j]);
-			}
+			for (let j = 0; j < value.length; j++) allPrices.push(value[j]);
 		}
 		let minPrice = Math.min(...allPrices);
 		let maxPrice = Math.max(...allPrices);
@@ -288,41 +297,6 @@ var sticks = {
 		this.min = minPrice;
 		return true;
 	},
-/*
-#prices
-
-  {
-    bcscale($this->iScale);
-    $sPrice = floatval(number_format($sPrice, $this->iScale, '.', ''));
-    if ($sPrice === 0) return 1;
-
-    if (!empty($sPrice)) {
-      return bcmul(bcsub($sPrice, $this->fMinPrice, $this->iScale), $this->fRatio, $this->iScale);
-    }
-
-    $aaPrices = $this->aaView;
-    $aColumns = array_map(function($k) use ($aaPrices) {
-      return array_column($aaPrices, $k);
-    }, array('closeoutAsk','closeoutBid'));
-
-    list($closeoutAsk, $closeoutBid) = $aColumns;
-    $maxPrice = max($closeoutAsk);
-    $minPrice = min($closeoutBid);
-    
-    $pSmallC = -1000;
-    $pLargeD = 1000;
-
-    $difPrice = bcsub($maxPrice, $minPrice);
-    $difChart = bcsub($pLargeD, $pSmallC);
-    #if ($difPrice == 0) $difPrice = $minPrice;
-    $fRation = bcdiv($difChart, $difPrice);
-    $this->fRatio = ($fRation != 0 ? $fRation: 0.2);
-    $this->fMinPrice = $minPrice;
-		
-    bcscale(0); # reset
-    return 1;
-  }
-*/
 };
 
 
