@@ -238,17 +238,18 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 10,
+	chartMin: -450,
+	chartMax: +450,
 	constructor: function(list) {
 		try {
 			// set sticks
 			this.xmlns = 'http://www.w3.org/2000/svg';
 			this.svg = window.chart.svg;
-			
 			if (!this.sticks_scale(list)) throw 'sticks.sticks_scale';
 			if (!this.sticks_ratio(list)) throw 'sticks.sticks_ratio';
 			if (!this.sticks_architecture(list)) throw 'sticks.sticks_architecture';
 			if (!this.sticks_view()) throw 'sticks.sticks_view';
-			console.log(this.sticks);
+			//console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -261,7 +262,9 @@ var sticks = {
 		let stick_body = document.createElementNS(this.xmlns, 'rect');
 		let stick_top = document.createElementNS(this.xmlns, 'line');
 		let stick_below = document.createElementNS(this.xmlns, 'line');
-		console.log([chart.get('high'), chart]);
+		
+		stick_group.setAttribute('class', 'chart_group');
+		//console.log([chart.get('high'), chart]);
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
 
@@ -319,7 +322,7 @@ var sticks = {
 		}
 		
 		this.gap = this.gap + 20;
-		console.log(this.gap);
+		//console.log(this.gap);
 			
 /*
 	<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
@@ -461,8 +464,8 @@ height="{{ price.chart_close - price.chart_open }}"
 		}
 		let minPrice = Math.min(...allPrices);
 		let maxPrice = Math.max(...allPrices);
-		let chartMin = -445; //window.chart.height
-		let chartMax = +445;
+		let chartMin = this.chartMin; //window.chart.height
+		let chartMax = this.chartMax;
 		let difPrice = Number(maxPrice) - Number(minPrice);
 		let difChart = Number(chartMax) - Number(chartMin);
 		this.ratio = Number(difChart) / Number(difPrice);
@@ -471,6 +474,53 @@ height="{{ price.chart_close - price.chart_open }}"
 	},
 };
 
+var settings = {
+	range_step: 10,
+	constructor: function() {
+		try {
+			// set settings
+			if (!this.chart_range()) throw 'sticks.chart_range';
+			return true;
+		} catch (e) {
+			console.error(e);
+		}
+  },
+	chart_range: function(list) {
+		var zoom_chart_vertical = document.createElement("input");
+		zoom_chart_vertical.setAttribute('type', 'range');
+		zoom_chart_vertical.setAttribute('min', 1000);
+		zoom_chart_vertical.setAttribute('max', 2000);
+		zoom_chart_vertical.setAttribute('step', this.range_step);
+		zoom_chart_vertical.setAttribute('value', window.chart.height);
+		zoom_chart_vertical.setAttribute('oninput', 'window.settings.range_change(this.value, 0)');
+		// oninput="windowsettings.range_change(this.value)
+		var zoom_chart_orizontal = document.createElement("input");
+		zoom_chart_orizontal.setAttribute('type', 'range');
+		zoom_chart_orizontal.setAttribute('min', 1000);
+		zoom_chart_orizontal.setAttribute('max', 2000);
+		zoom_chart_orizontal.setAttribute('step', this.range_step);
+		zoom_chart_orizontal.setAttribute('value', window.chart.width);
+		zoom_chart_orizontal.setAttribute('oninput', 'window.settings.range_change(this.value, 1)');
+		console.log(document.getElementById('settings'));
+		document.getElementById('settings').appendChild(zoom_chart_vertical);
+		document.getElementById('settings').appendChild(zoom_chart_orizontal);
+		return true;
+  },
+	range_change: function(newvalue, position) {
+		if (position == 0) window.sticks.chartMin = newvalue;
+		else window.sticks.chartMax = newvalue;
+		
+			const boxes = document.querySelectorAll('.chart_group');
+
+			boxes.forEach(box => box.remove());
+
+		
+		if (!sticks.constructor(window.shapes.get())) throw 'sticks.constructor';
+console.log(newvalue);
+	}
+};
+
+
 
 function init(value = false) {
 	try {
@@ -478,6 +528,8 @@ function init(value = false) {
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
 		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		if (value) if (!settings.constructor()) throw 'settings.constructor';
+		
 		return true;
 	} catch (e) {
 		console.error(e);
