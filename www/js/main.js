@@ -237,9 +237,9 @@ var sticks = {
 	xmlns: '',
 	width: 12,
 	svg: null,
-	gap: 10,
+	gap: 1,
 	chartMin: 450,
-	chartMax: 330,
+	chartMax: 350,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -256,26 +256,29 @@ var sticks = {
 		}
   },
 	sticks_chart: function(chart, groupGrid) {
-		let stick_y = 100;
-		let stick_x = 6;
 		let stick_group = document.createElementNS(this.xmlns, 'g');
 		let stick_body = document.createElementNS(this.xmlns, 'rect');
 		let stick_top = document.createElementNS(this.xmlns, 'line');
 		let stick_below = document.createElementNS(this.xmlns, 'line');
 		
+		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
+		let stick_y = 100;
+		let stick_x = 6;
+		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
+		
 		stick_group.setAttribute('class', 'chart_group');
 		//console.log([chart.get('high'), chart]);
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
-
+/*
 			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
-			
+*/
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
-			stick_body.setAttributeNS(null, 'x', this.gap + stick_x);
+			stick_body.setAttributeNS(null, 'x', stick_xx);
 			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
@@ -286,14 +289,15 @@ var sticks = {
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
+/*
 			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
-			
+*/
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
-			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'x', stick_xx);
 			stick_body.setAttributeNS(null, 'y', 10 - chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
@@ -304,14 +308,15 @@ var sticks = {
 		}
 		else if (chart.get('open') == chart.get('close')) {
 			// doji
+/*
 			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
-			
+*/
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
-			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'x', stick_xx);
 			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', 2);
@@ -321,100 +326,13 @@ var sticks = {
 			
 		}
 		
-		this.gap = this.gap + 20;
+		this.gap = this.gap + 1;
+		
 		//console.log(this.gap);
-			
-/*
-	<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_open }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-*/
-/*
-{% if price.chart_open > price.chart_close %}
-	<!-- bearish -->
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_open }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-	<!-- bearish -->
-{% elseif price.chart_open < price.chart_close %}
-	<!-- bullish -->
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_close }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-	<!-- bullish -->
-{% elseif price.chart_open == price.chart_close %}
-	<!-- doji-->
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_open }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-	<!-- doji-->
-{% endif %}
-
-{% set xx1 = 150 + ((loop.index / 1) - 1) * (3700 / prices|length) %}
-{% set xx2 = 150 + (loop.index / 1) * (3700 / prices|length) %}
-					
-{% elseif price.chart_open == price.chart_close %}
-<!-- doji -->
-	<rect 
-		x="{{ xx1 - 6}}"
-		y="{{ 2555 - price.chart_open }}" 
-		width="12" 
-		height="1"
-		style="fill:DodgerBlue;stroke:DodgerBlue;stroke-width:0.5;" 
-	/>
-	<!-- doji -->
-{% endif %}
-*/
-/*
-rect.setAttributeNS( null,'x',x );
-rect.setAttributeNS( null,'y',y );
-rect.setAttributeNS( null,'width','50' );
-rect.setAttributeNS( null,'height','50' );
-rect.setAttributeNS( null,'fill','#'+Math.round( 0xffffff * Math.random()).toString(16) );
-document.getElementById( 'svgOne' ).appendChild( rect );
-*/
-/*
-<rect 
-	x="{{ xx1 - 6}}"
-	y="{{ 2555 - price.chart_open }}" 
-	width="12" 
-	height="{{ price.chart_open - price.chart_close }}"
-	style="fill:none;stroke:DodgerBlue;stroke-width:1;" {# fill:DodgerBlue; - Red - DodgerBlue #}
-	opacity="1"
-/>
-*/
-/*
-% if price.chart_open > price.chart_close %}
-<!-- bullish -->
-height="{{ price.chart_open - price.chart_close }}"
-
-{% elseif price.chart_open < price.chart_close %}
-<!-- bearish -->
-height="{{ price.chart_close - price.chart_open }}"
-*/
 
 		// append
-		
 		stick_group.appendChild(stick_top);
 		stick_group.appendChild(stick_body);
-		
 		this.svg.appendChild(stick_group);
 		return true;
   },
@@ -509,14 +427,10 @@ var settings = {
 	range_change: function(newvalue, position) {
 		if (position == 0) window.sticks.chartMin = newvalue;
 		else window.sticks.chartMax = newvalue;
-		
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
-		
 		if (!sticks.constructor(window.shapes.get())) throw 'sticks.constructor';
-		
-		console.log(newvalue);
-		
+		//console.log(newvalue);
 	}
 };
 
@@ -542,6 +456,91 @@ document.addEventListener('PricesLoaded', () => init(true));
 
 
 
+			
+/*
+	<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+*/
+/*
+{% if price.chart_open > price.chart_close %}
+	<!-- bearish -->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- bearish -->
+{% elseif price.chart_open < price.chart_close %}
+	<!-- bullish -->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_close }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- bullish -->
+{% elseif price.chart_open == price.chart_close %}
+	<!-- doji-->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- doji-->
+{% endif %}
 
+{% set xx1 = 150 + ((loop.index / 1) - 1) * (3700 / prices|length) %}
+{% set xx2 = 150 + (loop.index / 1) * (3700 / prices|length) %}
+					
+{% elseif price.chart_open == price.chart_close %}
+<!-- doji -->
+	<rect 
+		x="{{ xx1 - 6}}"
+		y="{{ 2555 - price.chart_open }}" 
+		width="12" 
+		height="1"
+		style="fill:DodgerBlue;stroke:DodgerBlue;stroke-width:0.5;" 
+	/>
+	<!-- doji -->
+{% endif %}
+*/
+/*
+rect.setAttributeNS( null,'x',x );
+rect.setAttributeNS( null,'y',y );
+rect.setAttributeNS( null,'width','50' );
+rect.setAttributeNS( null,'height','50' );
+rect.setAttributeNS( null,'fill','#'+Math.round( 0xffffff * Math.random()).toString(16) );
+document.getElementById( 'svgOne' ).appendChild( rect );
+*/
+/*
+<rect 
+	x="{{ xx1 - 6}}"
+	y="{{ 2555 - price.chart_open }}" 
+	width="12" 
+	height="{{ price.chart_open - price.chart_close }}"
+	style="fill:none;stroke:DodgerBlue;stroke-width:1;" {# fill:DodgerBlue; - Red - DodgerBlue #}
+	opacity="1"
+/>
+*/
+/*
+% if price.chart_open > price.chart_close %}
+<!-- bullish -->
+height="{{ price.chart_open - price.chart_close }}"
+
+{% elseif price.chart_open < price.chart_close %}
+<!-- bearish -->
+height="{{ price.chart_close - price.chart_open }}"
+*/
 
 
