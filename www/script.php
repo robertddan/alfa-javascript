@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
-header("Content-length: 713386");# . strlen($sPrices); // tells file size
+header("Content-length: 1136900");# . strlen($sPrices); // tells file size
 
 // EUR_GBP - 21410997
 // EUR_USD - 21410997
@@ -11,7 +11,7 @@ header("Content-length: 713386");# . strlen($sPrices); // tells file size
 // EUR_GBP_0002 - 713386
 
 // !!! Size of package must be manually written
-$sPrices = file_get_contents('./EUR_GBP_0002.json', true);
+$sPrices = file_get_contents('./EUR_GBP_0001.json', true);
 return print $sPrices;
 
 
