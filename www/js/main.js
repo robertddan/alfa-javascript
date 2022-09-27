@@ -26,6 +26,7 @@ var chart = {
 		return true;
   },
 	chart_limits: function() {
+		let groupLimits = document.createElementNS(this.xmlns, 'g');
 		// limits
 		let borderVertical = document.createElementNS(this.xmlns, 'line');
 		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
@@ -42,15 +43,18 @@ var chart = {
 		linesHorizontal.setAttributeNS(null, 'y2', this.height);
 		linesHorizontal.setAttributeNS(null, 'stroke', 'Red');
 		// append
-		this.svg.appendChild(borderVertical);
-		this.svg.appendChild(linesHorizontal);
-		
+		groupLimits.appendChild(borderVertical);
+		groupLimits.appendChild(linesHorizontal);
+		this.svg.appendChild(groupLimits);
 		return true;
 	},
 	chart_grid: function() {
+		let groupGrid = document.createElementNS(this.xmlns, 'g');
+		// grid
+		let gridHorizontal = document.createElementNS(this.xmlns, 'line');
+		let gridVertical = document.createElementNS(this.xmlns, 'line');
 		// grid horizontal
 		for (let i = 0; i < (this.width / this.grid_gap); i++) {
-			let gridHorizontal = document.createElementNS(this.xmlns, 'line');
 			gridHorizontal.setAttributeNS(null, 'x1', this.grid_gap * i);
 			gridHorizontal.setAttributeNS(null, 'y1', 0);
 			gridHorizontal.setAttributeNS(null, 'x2', this.grid_gap * i);
@@ -60,7 +64,6 @@ var chart = {
 		}
 		// grid vertical
 		for (let i = 0; i < (this.height / this.grid_gap); i++) {
-			let gridVertical = document.createElementNS(this.xmlns, 'line');
 			gridVertical.setAttributeNS(null, 'x1', 0);
 			gridVertical.setAttributeNS(null, 'y1', this.grid_gap * i);
 			gridVertical.setAttributeNS(null, 'x2', this.width);
@@ -68,6 +71,10 @@ var chart = {
 			gridVertical.setAttributeNS(null, 'stroke', 'LightGray');
 			this.svg.appendChild(gridVertical);
 		}
+		//append
+		groupGrid.appendChild(gridHorizontal);
+		groupGrid.appendChild(gridVertical);
+		this.svg.appendChild(groupGrid);
 		return true;
 	}
 };
