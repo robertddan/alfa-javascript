@@ -145,6 +145,7 @@ var shapes = {
 	time_lock: false,
 	shapes: null,
 	shapes_key: 0,
+	shapes_lestest: null,
 	sticks: null,
 	lestest: null,
 	key: 0,
@@ -161,7 +162,7 @@ var shapes = {
 				//if (!this.structure()) throw 'this.structure';
 			}
 			
-			//console.log(this.shapes);
+			console.log(this.shapes);
 			
 			return true;
 		} catch (e) {
@@ -174,6 +175,7 @@ var shapes = {
 	structure: function() {
 		
 		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
+		this.lestest = this.index.getTime();
 		
 		if (this.shapes[this.index.getTime()] == undefined) return true;
 		if (this.shapes['1659425100502'] !== undefined) return true;
@@ -202,17 +204,11 @@ var shapes = {
   },
 	setup: function(price) {
 		if (this.shapes == null) this.shapes = Object.create({});
-		
-		if (this.lestest !== this.index.getTime()) this.shapes_key = this.shapes_key + 1;
-		
-		console.log(this.shapes_key);
-		
-		console.log(this.shapes_key);
 		//if (this.time_lock !== true) return true; //enclose(); disabled for moment
 		if (this.shapes[this.shapes_key] == undefined) this.shapes[this.shapes_key] = new Array();
 		this.shapes[this.shapes_key].push(price);
-		
-		
+		if (this.shapes_lestest !== this.index.getTime()) this.shapes_key = this.shapes_key + 1;
+		this.shapes_lestest = this.index.getTime();
 		return true;
   },
 	enclose: function(time) { // start from fix minute/ ex: 11:11:11 => 11:12:00 for 2min or 11:15:00 for 5 min, etc.
@@ -244,7 +240,6 @@ var shapes = {
 		if (this.index_first == false) this.index_first = true;
 		
 		if (indexDate.getTime() < newDate.getTime()) this.index = indexDate;
-		this.lestest = this.index.getTime();
 		
 		return true;
   }
