@@ -274,6 +274,8 @@ height="{{ price.chart_close - price.chart_open }}"
 			
 		]);
 		
+		let groupGrid = document.createElementNS(this.xmlns, 'g');
+		//let candlestick = document.createElementNS(this.xmlns, 'rect');
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
 			let candlestick = document.createElementNS(this.xmlns, 'rect');
@@ -282,7 +284,6 @@ height="{{ price.chart_close - price.chart_open }}"
 			candlestick.setAttributeNS(null, 'width', this.width);
 			candlestick.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
 			candlestick.setAttributeNS(null, 'fill', 'Green');
-
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
@@ -317,7 +318,8 @@ height="{{ price.chart_close - price.chart_open }}"
 */
 		
 		// append
-		this.svg.appendChild(candlestick);
+		groupGrid.appendChild(candlestick);
+		this.svg.appendChild(groupGrid);
 		return true;
   },
 	sticks_view: function() {
