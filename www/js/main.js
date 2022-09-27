@@ -262,7 +262,7 @@ var sticks = {
 		let stick_below = document.createElementNS(this.xmlns, 'line');
 		
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
-		let stick_y = 100;
+		let stick_y = 940;
 		let stick_x = 6;
 		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
 		
@@ -284,8 +284,6 @@ var sticks = {
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
-			
-			
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
@@ -303,8 +301,6 @@ var sticks = {
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
 			stick_body.setAttributeNS(null, 'fill', 'Red');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
-			
-			
 		}
 		else if (chart.get('open') == chart.get('close')) {
 			// doji
@@ -322,14 +318,9 @@ var sticks = {
 			stick_body.setAttributeNS(null, 'height', 2);
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
-			
-			
 		}
 		
 		this.gap = this.gap + 1;
-		
-		//console.log(this.gap);
-
 		// append
 		stick_group.appendChild(stick_top);
 		stick_group.appendChild(stick_body);
