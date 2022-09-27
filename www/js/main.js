@@ -2,8 +2,8 @@
 
 var chart = {
 	svg: {},
-	height: 890,
-	width: 1240,
+	height: 1890,
+	width: 2240,
 	grid_gap: 60,
 	constructor: function(sDivId) {
 		try {
@@ -255,53 +255,112 @@ var sticks = {
 		}
   },
 	sticks_chart: function(chart, groupGrid) {
-		console.log(chart);
-/*
-% if price.chart_open > price.chart_close %}
-<!-- bullish -->
-height="{{ price.chart_open - price.chart_close }}"
-
-{% elseif price.chart_open < price.chart_close %}
-<!-- bearish -->
-height="{{ price.chart_close - price.chart_open }}"
-*/
-
-		console.log([
-			chart.get('open') > chart.get('close'),
-			chart.get('open') < chart.get('close'),
-			
-		]);
+		let stick_y = 100;
+		let stick_body = document.createElementNS(this.xmlns, 'rect');
+		let stick_top = document.createElementNS(this.xmlns, 'line');
+		let stick_below = document.createElementNS(this.xmlns, 'line');
 		
-		let candlestick = document.createElementNS(this.xmlns, 'rect');
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
-			//let candlestick = document.createElementNS(this.xmlns, 'rect');
-			candlestick.setAttributeNS(null, 'x', this.gap);
-			candlestick.setAttributeNS(null, 'y', chart.get('open'));
-			candlestick.setAttributeNS(null, 'width', this.width);
-			candlestick.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
-			candlestick.setAttributeNS(null, 'fill', 'Green');
+			
+			
+			//let stick_body = document.createElementNS(this.xmlns, 'rect');
+			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'width', this.width);
+			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
+			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
+			stick_body.setAttributeNS(null, 'stroke', 'White');
+			
+			
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
-			//let candlestick = document.createElementNS(this.xmlns, 'rect');
-			candlestick.setAttributeNS(null, 'x', this.gap);
-			candlestick.setAttributeNS(null, 'y', chart.get('open'));
-			candlestick.setAttributeNS(null, 'width', this.width);
-			candlestick.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
-			candlestick.setAttributeNS(null, 'fill', 'Red');
+			
+			
+			//let stick_body = document.createElementNS(this.xmlns, 'rect');
+			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'y', 10 - chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'width', this.width);
+			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
+			stick_body.setAttributeNS(null, 'fill', 'Red');
+			stick_body.setAttributeNS(null, 'stroke', 'White');
+			
+			
 		}
-
+		else if (chart.get('open') == chart.get('close')) {
+			// doji
+			
+			
+			//let stick_body = document.createElementNS(this.xmlns, 'rect');
+			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'width', this.width);
+			stick_body.setAttributeNS(null, 'height', 2);
+			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
+			stick_body.setAttributeNS(null, 'stroke', 'White');
+			
+			
+		}
+		
 		this.gap = this.gap + 20;
 		console.log(this.gap);
-
+		
 /*
-		rect.setAttributeNS( null,'x',x );
-		rect.setAttributeNS( null,'y',y );
-		rect.setAttributeNS( null,'width','50' );
-		rect.setAttributeNS( null,'height','50' );
-		rect.setAttributeNS( null,'fill','#'+Math.round( 0xffffff * Math.random()).toString(16) );
-		document.getElementById( 'svgOne' ).appendChild( rect );
+{% if price.chart_open > price.chart_close %}
+	<!-- bearish -->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- bearish -->
+{% elseif price.chart_open < price.chart_close %}
+	<!-- bullish -->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_close }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- bullish -->
+{% elseif price.chart_open == price.chart_close %}
+	<!-- doji-->
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+	<!-- doji-->
+{% endif %}
+
+{% set xx1 = 150 + ((loop.index / 1) - 1) * (3700 / prices|length) %}
+{% set xx2 = 150 + (loop.index / 1) * (3700 / prices|length) %}
+					
+{% elseif price.chart_open == price.chart_close %}
+<!-- doji -->
+	<rect 
+		x="{{ xx1 - 6}}"
+		y="{{ 2555 - price.chart_open }}" 
+		width="12" 
+		height="1"
+		style="fill:DodgerBlue;stroke:DodgerBlue;stroke-width:0.5;" 
+	/>
+	<!-- doji -->
+{% endif %}
+*/
+/*
+rect.setAttributeNS( null,'x',x );
+rect.setAttributeNS( null,'y',y );
+rect.setAttributeNS( null,'width','50' );
+rect.setAttributeNS( null,'height','50' );
+rect.setAttributeNS( null,'fill','#'+Math.round( 0xffffff * Math.random()).toString(16) );
+document.getElementById( 'svgOne' ).appendChild( rect );
 */
 /*
 <rect 
@@ -313,7 +372,16 @@ height="{{ price.chart_close - price.chart_open }}"
 	opacity="1"
 />
 */
-		
+/*
+% if price.chart_open > price.chart_close %}
+<!-- bullish -->
+height="{{ price.chart_open - price.chart_close }}"
+
+{% elseif price.chart_open < price.chart_close %}
+<!-- bearish -->
+height="{{ price.chart_close - price.chart_open }}"
+*/
+
 		// append
 		groupGrid.appendChild(candlestick);
 		this.svg.appendChild(groupGrid);
