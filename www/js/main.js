@@ -161,9 +161,6 @@ var shapes = {
 				if (!this.setup(prices[i])) throw 'this.setup';
 				if (!this.structure()) throw 'this.structure';
 			}
-			
-			console.log(this.sticks);
-			
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -205,7 +202,6 @@ var shapes = {
   },
 	comparison: function(time) {
 		if (this.index_first == false) this.index = time;
-		
 		let indexDate = new Date();
 		indexDate.setFullYear(this.index.getFullYear());
 		indexDate.setMonth(this.index.getMonth());
@@ -213,7 +209,6 @@ var shapes = {
 		indexDate.setHours(this.index.getHours());
 		indexDate.setMinutes(this.index.getMinutes() + this.time);
 		indexDate.setSeconds(0);
-		
 		let newDate = new Date();
 		newDate.setFullYear(time.getFullYear());
 		newDate.setMonth(time.getMonth());
@@ -221,12 +216,9 @@ var shapes = {
 		newDate.setHours(time.getHours());
 		newDate.setMinutes(time.getMinutes());
 		newDate.setSeconds(0);
-		
 		if (this.index_first == false) this.index = indexDate;
 		if (this.index_first == false) this.index_first = true;
-		
 		if (indexDate.getTime() < newDate.getTime()) this.index = indexDate;
-		
 		return true;
   }
 };
@@ -234,24 +226,37 @@ var shapes = {
 var sticks = {
 	chart: window.chart,
 	scale: null,
+	ratio: null,
+	min: null,
 	constructor: function(list) {
 		try {
 			// set sticks
-			//if (!this.scale(list)) throw 'sticks.scale';
-			//if (!this.ratio(list)) throw 'sticks.ratio';
+			if (!this.sticks_scale(list)) throw 'sticks.sticks_scale';
+			if (!this.sticks_ratio(list)) throw 'sticks.sticks_ratio';
+			if (!this.sticks_view(list)) throw 'sticks.sticks_view';
 			//console.log(this.scale);
+			
+
 			return true;
 		} catch (e) {
 			console.error(e);
 		}
   },
-	index: function(prices) {
+	sticks_view: function(prices) {
+		let len = Object.keys(prices).length;
+		for (const [key, value] of Object.entries(prices)) {
+			for (let j = 0; j < value.length; j++) {
+				//allPrices.push(value[j]);
+				console.log(this.price_ratio(value[j]));
+			}
+		}
+		
 		console.log(this.chart.svg);
 		return true;
   },
-	scale: function(list) { 
+	sticks_scale: function(list) { 
 		if (this.scale !== null) return true;
-		let prices = new Array(list[0], list[list.length - 1]);
+		let prices = new Array(list[1], list[Object.keys(list).length]);
 		for (let i = 0; i < prices.length; i++) {
 			for (let j = 0; j < prices[i].length; j++) {
 				let len = prices[i][j].split('.')[1].length;
@@ -260,17 +265,33 @@ var sticks = {
 		}
 		return true;
   },
-	ratio: function(prices) { // parseFloat
-		console.log(prices);
-		for (let i = 0; i < prices.length; i++) {
-			for (let j = 0; j < prices[i].length; j++) {
-				//console.log();
-				console.log(parseFloat(prices[i][j]));
+	sticks_ratio: function(prices) {
+		let allPrices = [];
+		let len = Object.keys(prices).length;
+		for (const [key, value] of Object.entries(prices)) {
+			for (let j = 0; j < value.length; j++) {
+				allPrices.push(value[j]);
 			}
 		}
+		let minPrice = Math.min(...allPrices);
+		let maxPrice = Math.max(...allPrices);
+		let chartMin = -890; //window.chart.height
+		let chartMax = +890;
+		let difPrice = Number(maxPrice) - Number(minPrice);
+		let difChart = Number(chartMax) - Number(chartMin);
+		this.ration = Number(difChart) / Number(difPrice);
+		this.min = minPrice;
 		
+		console.log([difChart, difPrice]);
 		
+		return true;
+	},
+	price_ratio: function(price) {
+		let diff = Number(price) - Number(this.min);
+		return Number(diff) * Number(this.ratio);
 		
+		//return bcmul(bcsub($sPrice, $this->fMinPrice, $this->iScale), $this->fRatio, $this->iScale);
+  },
 /*
 #prices
 
@@ -302,13 +323,10 @@ var sticks = {
     $this->fRatio = ($fRation != 0 ? $fRation: 0.2);
     $this->fMinPrice = $minPrice;
 		
-		
     bcscale(0); # reset
     return 1;
   }
 */
-		
-	}
 };
 
 
