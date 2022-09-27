@@ -243,13 +243,11 @@ var sticks = {
 		}
   },
 	sticks_view: function(prices) {
-		
-		
 		let len = Object.keys(prices).length;
 		for (const [key, value] of Object.entries(prices)) {
 			for (let j = 0; j < value.length; j++) {
 				//allPrices.push(value[j]);
-				//console.log(this.price_ratio(value[j]));
+				console.log(this.price_ratio(value[j]));
 			}
 		}
 		
@@ -257,13 +255,8 @@ var sticks = {
 		return true;
   },
 	price_ratio: function(price) {
-		
 		let diff = Number(price) - Number(this.min);
-		//return Number(diff) * Number(this.ratio);
-		
-		console.log(['price_ratio', this.ratio, diff]);
-		return true;
-		//return bcmul(bcsub($sPrice, $this->fMinPrice, $this->iScale), $this->fRatio, $this->iScale);
+		return Number(diff) * Number(this.ratio);
   },
 	sticks_scale: function(list) { 
 		if (this.scale !== null) return true;
@@ -277,7 +270,7 @@ var sticks = {
 		return true;
   },
 	sticks_ratio: function(prices) {
-		
+		if (this.ratio !== null) return true;
 		let allPrices = [];
 		let len = Object.keys(prices).length;
 		for (const [key, value] of Object.entries(prices)) {
@@ -293,8 +286,6 @@ var sticks = {
 		let difChart = Number(chartMax) - Number(chartMin);
 		this.ratio = Number(difChart) / Number(difPrice);
 		this.min = minPrice;
-		
-		console.log(['ratio', this.ratio]);
 		return true;
 	},
 /*
