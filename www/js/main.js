@@ -232,6 +232,7 @@ var sticks = {
 	xmlns: '',
 	width: 12,
 	svg: null,
+	gap: 10,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -249,13 +250,16 @@ var sticks = {
 		}
   },
 	sticks_chart: function(chart) {
+		console.log(chart);
 		let candlestick = document.createElementNS(this.xmlns, 'rect');
-		candlestick.setAttributeNS(null, 'x', '0');
-		candlestick.setAttributeNS(null, 'y', chart.open);
-		candlestick.setAttributeNS(null, 'width', this.height);
-		candlestick.setAttributeNS(null, 'height', (chart.open - chart.close) );
-		candlestick.setAttributeNS(null, 'fill', 'Red');
-			
+		candlestick.setAttributeNS(null, 'x', this.gap);
+		candlestick.setAttributeNS(null, 'y', chart.get('open'));
+		candlestick.setAttributeNS(null, 'width', this.width);
+		candlestick.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
+		candlestick.setAttributeNS(null, 'fill', 'Green');
+		
+		this.gap = this.gap + 20;
+		console.log(this.gap);
 /*
 		rect.setAttributeNS( null,'x',x );
 		rect.setAttributeNS( null,'y',y );
