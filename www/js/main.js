@@ -270,23 +270,14 @@ var sticks = {
 		//console.log([chart.get('high'), chart]);
 		if (chart.get('open') > chart.get('close')) {
 /*
-	<!-- bearish -->
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_open }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-	<!-- bearish -->
-{% elseif price.chart_open < price.chart_close %}
 	<!-- bullish -->
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_close }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
+	<rect 
+		x="{{ xx1 - 6}}"
+		y="{{ 2555 - price.chart_open }}" 
+		width="12" 
+		height="{{ price.chart_open - price.chart_close }}"
+		style="fill:none;stroke:DodgerBlue;stroke-width:1;" {# fill:DodgerBlue; - Red - DodgerBlue #}
+		opacity="1"
 	/>
 	<!-- bullish -->
 	
@@ -299,7 +290,7 @@ var sticks = {
 */
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
-			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'y', 1000 - chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
@@ -307,6 +298,17 @@ var sticks = {
 		}
 		else if (chart.get('open') < chart.get('close')) {
 /*
+{% elseif price.chart_open < price.chart_close %}
+	<!-- bearish -->
+	<rect 
+		x="{{ xx1 - 6}}"
+		y="{{ 2555 - price.chart_close }}" 
+		width="12" 
+		height="{{ price.chart_close - price.chart_open }}"
+		style="fill:DodgerBlue;stroke:DodgerBlue;stroke-width:1;" {# LimeGreen - DodgerBlue #}
+		opacity="1"
+	/>
+	<!-- bearish -->
 			// bearisch
 			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
 			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
@@ -316,7 +318,7 @@ var sticks = {
 */
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
-			stick_body.setAttributeNS(null, 'y', 10 - chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'y', 1000 - chart.get('close') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
 			stick_body.setAttributeNS(null, 'fill', 'Red');
