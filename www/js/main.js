@@ -49,31 +49,31 @@ var chart = {
 		return true;
 	},
 	chart_grid: function() {
-		let groupGrid = document.createElementNS(this.xmlns, 'g');
 		// grid
-		let gridHorizontal = document.createElementNS(this.xmlns, 'line');
-		let gridVertical = document.createElementNS(this.xmlns, 'line');
+		let groupGrid = document.createElementNS(this.xmlns, 'g');
 		// grid horizontal
 		for (let i = 0; i < (this.width / this.grid_gap); i++) {
+			let gridHorizontal = document.createElementNS(this.xmlns, 'line');
 			gridHorizontal.setAttributeNS(null, 'x1', this.grid_gap * i);
 			gridHorizontal.setAttributeNS(null, 'y1', 0);
 			gridHorizontal.setAttributeNS(null, 'x2', this.grid_gap * i);
 			gridHorizontal.setAttributeNS(null, 'y2', this.height);
 			gridHorizontal.setAttributeNS(null, 'stroke', 'LightGray');
-			this.svg.appendChild(gridHorizontal);
+			//this.svg.appendChild(gridHorizontal);
+			groupGrid.appendChild(gridHorizontal);
 		}
 		// grid vertical
 		for (let i = 0; i < (this.height / this.grid_gap); i++) {
+			let gridVertical = document.createElementNS(this.xmlns, 'line');
 			gridVertical.setAttributeNS(null, 'x1', 0);
 			gridVertical.setAttributeNS(null, 'y1', this.grid_gap * i);
 			gridVertical.setAttributeNS(null, 'x2', this.width);
 			gridVertical.setAttributeNS(null, 'y2', this.grid_gap * i);
 			gridVertical.setAttributeNS(null, 'stroke', 'LightGray');
-			this.svg.appendChild(gridVertical);
+			//this.svg.appendChild(gridVertical);
+			groupGrid.appendChild(gridVertical);
 		}
 		//append
-		groupGrid.appendChild(gridHorizontal);
-		groupGrid.appendChild(gridVertical);
 		this.svg.appendChild(groupGrid);
 		return true;
 	}
@@ -256,7 +256,7 @@ var sticks = {
 			console.error(e);
 		}
   },
-	sticks_chart: function(chart) {
+	sticks_chart: function(chart, groupGrid) {
 		console.log(chart);
 /*
 % if price.chart_open > price.chart_close %}
@@ -274,11 +274,10 @@ height="{{ price.chart_close - price.chart_open }}"
 			
 		]);
 		
-		let groupGrid = document.createElementNS(this.xmlns, 'g');
-		//let candlestick = document.createElementNS(this.xmlns, 'rect');
+		let candlestick = document.createElementNS(this.xmlns, 'rect');
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
-			let candlestick = document.createElementNS(this.xmlns, 'rect');
+			//let candlestick = document.createElementNS(this.xmlns, 'rect');
 			candlestick.setAttributeNS(null, 'x', this.gap);
 			candlestick.setAttributeNS(null, 'y', chart.get('open'));
 			candlestick.setAttributeNS(null, 'width', this.width);
@@ -287,7 +286,7 @@ height="{{ price.chart_close - price.chart_open }}"
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
-			let candlestick = document.createElementNS(this.xmlns, 'rect');
+			//let candlestick = document.createElementNS(this.xmlns, 'rect');
 			candlestick.setAttributeNS(null, 'x', this.gap);
 			candlestick.setAttributeNS(null, 'y', chart.get('open'));
 			candlestick.setAttributeNS(null, 'width', this.width);
@@ -323,8 +322,9 @@ height="{{ price.chart_close - price.chart_open }}"
 		return true;
   },
 	sticks_view: function() {
+		let groupGrid = document.createElementNS(this.xmlns, 'g');
 		for (const [key, value] of Object.entries(this.sticks)) {		
-			this.sticks_chart(value);
+			this.sticks_chart(value, groupGrid);
 			// <rect x="120" width="100" height="100" rx="15" />
 		}
 		
@@ -368,8 +368,8 @@ height="{{ price.chart_close - price.chart_open }}"
 		}
 		let minPrice = Math.min(...allPrices);
 		let maxPrice = Math.max(...allPrices);
-		let chartMin = -890; //window.chart.height
-		let chartMax = +890;
+		let chartMin = -445; //window.chart.height
+		let chartMax = +445;
 		let difPrice = Number(maxPrice) - Number(minPrice);
 		let difChart = Number(chartMax) - Number(chartMin);
 		this.ratio = Number(difChart) / Number(difPrice);
