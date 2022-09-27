@@ -159,10 +159,10 @@ var shapes = {
 				if (!this.comparison(time)) throw 'this.comparison';
 				if (!this.enclose(time)) throw 'this.enclose';
 				if (!this.setup(prices[i])) throw 'this.setup';
-				//if (!this.structure()) throw 'this.structure';
+				if (!this.structure()) throw 'this.structure';
 			}
 			
-			console.log(this.shapes);
+			console.log(this.sticks);
 			
 			return true;
 		} catch (e) {
@@ -173,42 +173,28 @@ var shapes = {
 		return this.sticks;
 	},
 	structure: function() {
-		
+		if (this.shapes[this.shapes_key] == undefined) return true;
 		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		this.lestest = this.index.getTime();
-		
-		if (this.shapes[this.index.getTime()] == undefined) return true;
-		if (this.shapes['1659425100502'] !== undefined) return true;
-		
-		console.log(this.shapes);
-		//let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
-		let closeoutAsk = this.shapes[this.index.getTime()].map(function(value) {return value.closeoutAsk;});
-		
-
+		let closeoutAsk = this.shapes[this.shapes_key].map(function(value) {return value.closeoutAsk;});
 		if (this.sticks == null) this.sticks = Object.create({});
 		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
-		
 		let stick = new Array(
 			Math.min(...closeoutAsk).toString(), 
 			Math.max(...closeoutAsk).toString(),
 			closeoutAsk[0],
 			closeoutAsk[closeoutAsk.length - 1]
 		);
-		
 		this.sticks[this.key] = stick;
-		
-		//console.log(this.sticks[this.key]);
-		
-
 		return true;
   },
 	setup: function(price) {
+		if (this.shapes_lestest !== this.index.getTime()) this.shapes_key = this.shapes_key + 1;
+		this.shapes_lestest = this.index.getTime();
 		if (this.shapes == null) this.shapes = Object.create({});
 		//if (this.time_lock !== true) return true; //enclose(); disabled for moment
 		if (this.shapes[this.shapes_key] == undefined) this.shapes[this.shapes_key] = new Array();
 		this.shapes[this.shapes_key].push(price);
-		if (this.shapes_lestest !== this.index.getTime()) this.shapes_key = this.shapes_key + 1;
-		this.shapes_lestest = this.index.getTime();
 		return true;
   },
 	enclose: function(time) { // start from fix minute/ ex: 11:11:11 => 11:12:00 for 2min or 11:15:00 for 5 min, etc.
