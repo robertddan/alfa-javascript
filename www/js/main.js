@@ -159,6 +159,7 @@ var shapes = {
 				if (!this.structure()) throw 'this.structure';
 			}
 			
+		console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -170,11 +171,11 @@ var shapes = {
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
 		console.log(this.shapes[this.index]);
-		/*
+		
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
-
-		if (!Array.isArray(this.sticks)) this.sticks = new Array();
-		if (this.sticks[this.key] === undefined) this.sticks[this.key] = new Array();
+		
+		if (this.sticks == null) this.sticks = Object.create({});
+		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
 		
 		let stick = new Array(
 			Math.min(...closeoutAsk).toString(), 
@@ -186,18 +187,18 @@ var shapes = {
 		this.sticks[this.key] = stick;
 		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		
-		
 		console.log(this.sticks[this.key]);
 		
-		
 		this.lestest = this.index.getTime();
-		*/
+		
+		
+		
 		return true;
   },
 	setup: function(price) {
-		if (!Array.isArray(this.shapes)) this.shapes = new Array();
+		if (this.shapes == null) this.shapes = Object.create({});
 		if (this.time_lock !== true) return true;
-		if (!Array.isArray(this.shapes[this.index])) this.shapes[this.index] = new Array();
+		if (this.shapes[this.index] == undefined) this.shapes[this.index] = new Array();
 		this.shapes[this.index].push(price);
 		return true;
   },
