@@ -1,14 +1,33 @@
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
-header("Content-length: 291428");# . strlen($sPrices); // tells file size
+header("Content-length: 713386");# . strlen($sPrices); // tells file size
 
 // EUR_GBP - 21410997
 // EUR_USD - 21410997
 // CAD_JPY - 21410997
+// EUR_GBP_0000 - 19709720
+// EUR_GBP_0001 - 1136900
+// EUR_GBP_0002 - 713386
+
 // !!! Size of package must be manually written
-$sPrices = file_get_contents('./EUR_USD.json', true);
+$sPrices = file_get_contents('./EUR_GBP_0002.json', true);
 return print $sPrices;
+
+
+$aSticks = json_decode($sPrices);
+var_dump(count($aSticks));
+
+$aSaved = array();
+foreach ($aSticks as $k => $aStick) {
+	if ($k > 5000) break;
+	array_push($aSaved, $aStick);
+}
+
+file_put_contents('EUR_GBP_0002.json', json_encode($aSaved));
+return true;
+
+
 
 // !!! Size of package must be manually written
 //$sTmp = file_get_contents('../_assets/EUR_GBP.tmp', true);

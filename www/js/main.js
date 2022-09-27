@@ -238,8 +238,8 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 10,
-	chartMin: -450,
-	chartMax: +450,
+	chartMin: 500,
+	chartMax: 300,
 	constructor: function(list) {
 		try {
 			// set sticks
