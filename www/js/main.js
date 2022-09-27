@@ -238,8 +238,8 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 1,
-	chartMin: 450,
-	chartMax: 350,
+	chartMin: -1560,
+	chartMax: 1550,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -290,10 +290,10 @@ var sticks = {
 */
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
-			stick_body.setAttributeNS(null, 'y', 1000 - chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'y', 1550 - chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
-			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
+			stick_body.setAttributeNS(null, 'fill', 'Red');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
 		}
 		else if (chart.get('open') < chart.get('close')) {
@@ -318,10 +318,10 @@ var sticks = {
 */
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
-			stick_body.setAttributeNS(null, 'y', 1000 - chart.get('close') + stick_y);
+			stick_body.setAttributeNS(null, 'y', 1550 - chart.get('close') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
-			stick_body.setAttributeNS(null, 'fill', 'Red');
+			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
 		}
 		else if (chart.get('open') == chart.get('close')) {
@@ -332,10 +332,19 @@ var sticks = {
 			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
+<!-- doji -->
+	<rect 
+		x="{{ xx1 - 6}}"
+		y="{{ 2555 - price.chart_open }}" 
+		width="12" 
+		height="1"
+		style="fill:DodgerBlue;stroke:DodgerBlue;stroke-width:0.5;" 
+	/>
+	<!-- doji -->
 */
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
-			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
+			stick_body.setAttributeNS(null, 'y', 1550 - chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', 2);
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
