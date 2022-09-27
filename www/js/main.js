@@ -182,8 +182,8 @@ var shapes = {
 		if (this.sticks == null) this.sticks = Object.create({});
 		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
 		let stick = new Array(
-			Math.min(...closeoutAsk).toString(), 
 			Math.max(...closeoutAsk).toString(),
+			Math.min(...closeoutAsk).toString(),
 			closeoutAsk[0],
 			closeoutAsk[closeoutAsk.length - 1]
 		);
@@ -256,16 +256,23 @@ var sticks = {
   },
 	sticks_chart: function(chart, groupGrid) {
 		let stick_y = 100;
+		let stick_x = 6;
+		let stick_group = document.createElementNS(this.xmlns, 'g');
 		let stick_body = document.createElementNS(this.xmlns, 'rect');
 		let stick_top = document.createElementNS(this.xmlns, 'line');
 		let stick_below = document.createElementNS(this.xmlns, 'line');
-		
+		console.log([chart.get('high'), chart]);
 		if (chart.get('open') > chart.get('close')) {
 			// bullish
-			
+
+			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', chart.get('open'));
+			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
-			stick_body.setAttributeNS(null, 'x', this.gap);
+			stick_body.setAttributeNS(null, 'x', this.gap + stick_x);
 			stick_body.setAttributeNS(null, 'y', chart.get('open') + stick_y);
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
@@ -276,7 +283,11 @@ var sticks = {
 		}
 		else if (chart.get('open') < chart.get('close')) {
 			// bearisch
-			
+			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
+			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', this.gap);
@@ -290,7 +301,11 @@ var sticks = {
 		}
 		else if (chart.get('open') == chart.get('close')) {
 			// doji
-			
+			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
+			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
+			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', this.gap);
@@ -305,7 +320,17 @@ var sticks = {
 		
 		this.gap = this.gap + 20;
 		console.log(this.gap);
-		
+			
+/*
+	<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+	<line 
+		x1="{{ xx1 }}"
+		y1="{{ 2555 - price.chart_high }}" 
+		x2="{{ xx1 }}" 
+		y2="{{ 2555 - price.chart_open }}" 
+		style="stroke:DodgerBlue;stroke-width:1"
+	/>
+*/
 /*
 {% if price.chart_open > price.chart_close %}
 	<!-- bearish -->
@@ -383,14 +408,16 @@ height="{{ price.chart_close - price.chart_open }}"
 */
 
 		// append
-		groupGrid.appendChild(candlestick);
-		this.svg.appendChild(groupGrid);
+		
+		stick_group.appendChild(stick_top);
+		stick_group.appendChild(stick_body);
+		
+		this.svg.appendChild(stick_group);
 		return true;
   },
 	sticks_view: function() {
-		let groupGrid = document.createElementNS(this.xmlns, 'g');
 		for (const [key, value] of Object.entries(this.sticks)) {		
-			this.sticks_chart(value, groupGrid);
+			this.sticks_chart(value);
 			// <rect x="120" width="100" height="100" rx="15" />
 		}
 		
@@ -400,7 +427,7 @@ height="{{ price.chart_close - price.chart_open }}"
 		if (this.sticks == null) this.sticks = Object.create({});
 		let len = Object.keys(prices).length;
 		let i = 0;
-		let keys = ['min', 'max', 'open', 'close'];
+		let keys = ['high', 'low', 'open', 'close'];
 		for (const [key, value] of Object.entries(prices)) {
 			for (let j = 0; j < value.length; j++) {
 				if (this.sticks[i] == undefined) this.sticks[i] = new Map();
