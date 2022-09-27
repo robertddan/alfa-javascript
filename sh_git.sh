@@ -7,7 +7,7 @@ git status
 #read -p "Enter your commit message: " varname
 #varname=${varname:-message} #📋📋📋✏️✏️✏️📜📜📜} # 👌👌👌🙏🙏🙏✌️✌️✌️
 
-git commit -m "📋📋📋✏️✏️✏️📜📜📜" 
+git commit -m "chart fix" 
 #git remote add origin https://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@github.com/johnidevo/javascript.git
 git push origin master
 
