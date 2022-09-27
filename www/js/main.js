@@ -26,32 +26,32 @@ var chart = {
 		return true;
   },
 	chart_limits: function() {
+		// Limits
 		let groupLimits = document.createElementNS(this.xmlns, 'g');
-		// limits
-		let borderVertical = document.createElementNS(this.xmlns, 'line');
-		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
 		// Vertical
+		let borderVertical = document.createElementNS(this.xmlns, 'line');
 		borderVertical.setAttributeNS(null, 'x1', '0');
 		borderVertical.setAttributeNS(null, 'x2', '0');
 		borderVertical.setAttributeNS(null, 'y1', '0');
 		borderVertical.setAttributeNS(null, 'y2', this.height);
 		borderVertical.setAttributeNS(null, 'stroke', 'Red');
 		// Horizontal
+		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
 		linesHorizontal.setAttributeNS(null, 'x1', '0');
 		linesHorizontal.setAttributeNS(null, 'x2', this.width);
 		linesHorizontal.setAttributeNS(null, 'y1', this.height);
 		linesHorizontal.setAttributeNS(null, 'y2', this.height);
 		linesHorizontal.setAttributeNS(null, 'stroke', 'Red');
-		// append
+		// Append
 		groupLimits.appendChild(borderVertical);
 		groupLimits.appendChild(linesHorizontal);
 		this.svg.appendChild(groupLimits);
 		return true;
 	},
 	chart_grid: function() {
-		// grid
+		// Grid
 		let groupGrid = document.createElementNS(this.xmlns, 'g');
-		// grid horizontal
+		// Grid horizontal
 		for (let i = 0; i < (this.width / this.grid_gap); i++) {
 			let gridHorizontal = document.createElementNS(this.xmlns, 'line');
 			gridHorizontal.setAttributeNS(null, 'x1', this.grid_gap * i);
@@ -59,10 +59,9 @@ var chart = {
 			gridHorizontal.setAttributeNS(null, 'x2', this.grid_gap * i);
 			gridHorizontal.setAttributeNS(null, 'y2', this.height);
 			gridHorizontal.setAttributeNS(null, 'stroke', 'LightGray');
-			//this.svg.appendChild(gridHorizontal);
 			groupGrid.appendChild(gridHorizontal);
 		}
-		// grid vertical
+		// Grid vertical
 		for (let i = 0; i < (this.height / this.grid_gap); i++) {
 			let gridVertical = document.createElementNS(this.xmlns, 'line');
 			gridVertical.setAttributeNS(null, 'x1', 0);
@@ -70,7 +69,6 @@ var chart = {
 			gridVertical.setAttributeNS(null, 'x2', this.width);
 			gridVertical.setAttributeNS(null, 'y2', this.grid_gap * i);
 			gridVertical.setAttributeNS(null, 'stroke', 'LightGray');
-			//this.svg.appendChild(gridVertical);
 			groupGrid.appendChild(gridVertical);
 		}
 		//append

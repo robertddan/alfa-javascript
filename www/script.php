@@ -3,7 +3,11 @@
 header('Content-Type: application/json; charset=utf-8');
 header("Content-length: 374596");# . strlen($sPrices); // tells file size
 
-$sPrices = file_get_contents('./prices.json', true);
+$sTmp = file_get_contents('../_assets/EUR_USD.tmp', true);
+$aPrices = unserialize($sTmp);
+$sPrices = json_encode($aPrices);
+
+//var_dump($sPrices);
 
 return print $sPrices;
 
