@@ -292,10 +292,10 @@ var sticks = {
 */
 	
 			// bullish
-			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', chart.get('open'));
+			stick_top.setAttributeNS(null, 'x1', stick_xx);
+			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
@@ -328,10 +328,10 @@ var sticks = {
 	<!-- bearish -->
 */
 			// bearisch
-			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
+			stick_top.setAttributeNS(null, 'x1', stick_xx);
+			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
@@ -362,10 +362,10 @@ var sticks = {
 	<!-- doji-->
 */
 			// doji
-			stick_top.setAttributeNS(null, 'x1', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'x2', this.gap + stick_x);
-			stick_top.setAttributeNS(null, 'y1', chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', chart.get('close'));
+			stick_top.setAttributeNS(null, 'x1', stick_xx);
+			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			//let stick_body = document.createElementNS(this.xmlns, 'rect');
 			stick_body.setAttributeNS(null, 'x', stick_xx);
