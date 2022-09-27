@@ -144,10 +144,12 @@ var shapes = {
 	time: 2, // min
 	time_lock: false,
 	shapes: null,
+	shapes_key: 0,
 	sticks: null,
 	lestest: null,
 	key: 0,
 	prices: [],
+	debug: 0,
 	constructor: function(prices) {
 		try {
 			// set shapes
@@ -156,10 +158,11 @@ var shapes = {
 				if (!this.comparison(time)) throw 'this.comparison';
 				if (!this.enclose(time)) throw 'this.enclose';
 				if (!this.setup(prices[i])) throw 'this.setup';
-				if (!this.structure()) throw 'this.structure';
+				//if (!this.structure()) throw 'this.structure';
 			}
 			
-		console.log(this.sticks);
+			//console.log(this.shapes);
+			
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -169,11 +172,17 @@ var shapes = {
 		return this.sticks;
 	},
 	structure: function() {
-		if (this.shapes[this.index] == undefined) return true;
-		console.log(this.shapes[this.index]);
 		
-		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		
+		if (this.shapes[this.index.getTime()] == undefined) return true;
+		if (this.shapes['1659425100502'] !== undefined) return true;
+		
+		console.log(this.shapes);
+		//let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
+		let closeoutAsk = this.shapes[this.index.getTime()].map(function(value) {return value.closeoutAsk;});
+		
+
 		if (this.sticks == null) this.sticks = Object.create({});
 		if (this.sticks[this.key] == undefined) this.sticks[this.key] = new Array();
 		
@@ -185,24 +194,28 @@ var shapes = {
 		);
 		
 		this.sticks[this.key] = stick;
-		if (this.lestest !== this.index.getTime()) this.key = this.key + 1;
 		
-		console.log(this.sticks[this.key]);
+		//console.log(this.sticks[this.key]);
 		
-		this.lestest = this.index.getTime();
-		
-		
-		
+
 		return true;
   },
 	setup: function(price) {
 		if (this.shapes == null) this.shapes = Object.create({});
-		if (this.time_lock !== true) return true;
-		if (this.shapes[this.index] == undefined) this.shapes[this.index] = new Array();
-		this.shapes[this.index].push(price);
+		
+		if (this.lestest !== this.index.getTime()) this.shapes_key = this.shapes_key + 1;
+		
+		console.log(this.shapes_key);
+		
+		console.log(this.shapes_key);
+		//if (this.time_lock !== true) return true; //enclose(); disabled for moment
+		if (this.shapes[this.shapes_key] == undefined) this.shapes[this.shapes_key] = new Array();
+		this.shapes[this.shapes_key].push(price);
+		
+		
 		return true;
   },
-	enclose: function(time) {
+	enclose: function(time) { // start from fix minute/ ex: 11:11:11 => 11:12:00 for 2min or 11:15:00 for 5 min, etc.
 		let minute = time.getMinutes();
 		if (minute % this.time === 0) this.time_lock = true;
 		else this.time_lock = false; 
@@ -231,6 +244,7 @@ var shapes = {
 		if (this.index_first == false) this.index_first = true;
 		
 		if (indexDate.getTime() < newDate.getTime()) this.index = indexDate;
+		this.lestest = this.index.getTime();
 		
 		return true;
   }
