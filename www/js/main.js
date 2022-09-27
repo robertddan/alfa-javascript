@@ -258,15 +258,45 @@ var sticks = {
   },
 	sticks_chart: function(chart) {
 		console.log(chart);
-		let candlestick = document.createElementNS(this.xmlns, 'rect');
-		candlestick.setAttributeNS(null, 'x', this.gap);
-		candlestick.setAttributeNS(null, 'y', chart.get('open'));
-		candlestick.setAttributeNS(null, 'width', this.width);
-		candlestick.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
-		candlestick.setAttributeNS(null, 'fill', 'Green');
+/*
+% if price.chart_open > price.chart_close %}
+<!-- bullish -->
+height="{{ price.chart_open - price.chart_close }}"
+
+{% elseif price.chart_open < price.chart_close %}
+<!-- bearish -->
+height="{{ price.chart_close - price.chart_open }}"
+*/
+
+		console.log([
+			chart.get('open') > chart.get('close'),
+			chart.get('open') < chart.get('close'),
+			
+		]);
 		
+		if (chart.get('open') > chart.get('close')) {
+			// bullish
+			let candlestick = document.createElementNS(this.xmlns, 'rect');
+			candlestick.setAttributeNS(null, 'x', this.gap);
+			candlestick.setAttributeNS(null, 'y', chart.get('open'));
+			candlestick.setAttributeNS(null, 'width', this.width);
+			candlestick.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
+			candlestick.setAttributeNS(null, 'fill', 'Green');
+
+		}
+		else if (chart.get('open') < chart.get('close')) {
+			// bearisch
+			let candlestick = document.createElementNS(this.xmlns, 'rect');
+			candlestick.setAttributeNS(null, 'x', this.gap);
+			candlestick.setAttributeNS(null, 'y', chart.get('open'));
+			candlestick.setAttributeNS(null, 'width', this.width);
+			candlestick.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
+			candlestick.setAttributeNS(null, 'fill', 'Red');
+		}
+
 		this.gap = this.gap + 20;
 		console.log(this.gap);
+
 /*
 		rect.setAttributeNS( null,'x',x );
 		rect.setAttributeNS( null,'y',y );
