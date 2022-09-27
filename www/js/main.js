@@ -169,6 +169,8 @@ var shapes = {
 	},
 	structure: function() {
 		if (this.shapes[this.index] == undefined) return true;
+		console.log(this.shapes[this.index]);
+		/*
 		let closeoutAsk = this.shapes[this.index].map((x) => x['closeoutAsk']);
 
 		if (!Array.isArray(this.sticks)) this.sticks = new Array();
@@ -189,6 +191,7 @@ var shapes = {
 		
 		
 		this.lestest = this.index.getTime();
+		*/
 		return true;
   },
 	setup: function(price) {
