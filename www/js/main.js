@@ -162,6 +162,8 @@ var shapes = {
 			// set shapes
 			for (let i = 0; i < prices.length; i++) {
 				if (i < 550) continue;
+				//if (i > 4000) break;
+			console.log(i );
 				const time = new Date(prices[i].time);
 				if (!this.comparison(time)) throw 'this.comparison';
 				if (!this.enclose(time)) throw 'this.enclose';
@@ -198,7 +200,7 @@ var shapes = {
 		if (this.shapes == null) this.shapes = Object.create({});
 		//if (this.time_lock !== true) return true; //enclose(); disabled for moment
 		if (this.shapes[this.shapes_key] == undefined) this.shapes[this.shapes_key] = new Array();
-		this.shapes[this.shapes_key].push(price);
+		this.shapes[this.shapes_key].unshift(price);
 		return true;
   },
 	enclose: function(time) { // start from fix minute/ ex: 11:11:11 => 11:12:00 for 2min or 11:15:00 for 5 min, etc.
@@ -242,7 +244,7 @@ var sticks = {
 	gap: 1,
 	chartMin: -650,
 	chartMax: 650,
-	stick_y: 1360,
+	stick_y: 1260,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -257,7 +259,7 @@ var sticks = {
 			console.error(e);
 		}
   },
-	sticks_chart: function(chart, groupGrid) {
+	sticks_chart: function(chart) {
 		let stick_group = document.createElementNS(this.xmlns, 'g');
 		let stick_body = document.createElementNS(this.xmlns, 'rect');
 		let stick_top = document.createElementNS(this.xmlns, 'line');
@@ -266,8 +268,8 @@ var sticks = {
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
 		// let stick_y = 1440;
 		let stick_x = 6;
-		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
-		//let stick_xx = this.gap * 12;
+		//let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
+		let stick_xx = this.gap * 10;
 		
 		stick_group.setAttribute('class', 'chart_group');
 		//console.log([chart.get('high'), chart]);
@@ -356,7 +358,9 @@ var sticks = {
 		let len = Object.keys(prices).length;
 		let i = 0;
 		let keys = ['high', 'low', 'open', 'close'];
+		
 		for (const [key, value] of Object.entries(prices)) {
+			console.log(key);
 			for (let j = 0; j < value.length; j++) {
 				if (this.sticks[i] == undefined) this.sticks[i] = new Map();
 				let diff = Number(Number(value[j]) - Number(this.min)) * Number(this.ratio);
@@ -364,6 +368,7 @@ var sticks = {
 			}
 			i = i + 1;
 		}
+		
 		console.log('sticks_architecture');
 		return true;
   },
@@ -390,6 +395,7 @@ var sticks = {
 	},
 	sticks_scale: function(list) { 
 		if (this.scale !== null) return true;
+		
 		let prices = new Array(list[1], list[Object.keys(list).length]);
 		for (let i = 0; i < prices.length; i++) {
 			for (let j = 0; j < prices[i].length; j++) {
@@ -403,7 +409,8 @@ var sticks = {
 };
 
 var settings = {
-	range_step: 12,
+	range_step: 1,
+	scale: 0,
 	constructor: function() {
 		try {
 			// set settings
@@ -414,29 +421,38 @@ var settings = {
 		}
   },
 	chart_range: function(list) {
-		var zoom_chart_vertical = document.createElement("input");
-		zoom_chart_vertical.setAttribute('type', 'range');
-		zoom_chart_vertical.setAttribute('min', 1130);
-		zoom_chart_vertical.setAttribute('max', 1440);
-		zoom_chart_vertical.setAttribute('step', this.range_step);
-		zoom_chart_vertical.setAttribute('value', window.chart.height);
-		zoom_chart_vertical.setAttribute('oninput', 'window.settings.range_change(this.value, 0)');
-		// oninput="windowsettings.range_change(this.value)
-		var zoom_chart_orizontal = document.createElement("input");
-		zoom_chart_orizontal.setAttribute('type', 'range');
-		zoom_chart_orizontal.setAttribute('min', 0);
-		zoom_chart_orizontal.setAttribute('max', 20);
-		zoom_chart_orizontal.setAttribute('step', this.range_step);
-		zoom_chart_orizontal.setAttribute('value', window.chart.width);
-		zoom_chart_orizontal.setAttribute('oninput', 'window.settings.range_change(this.value, 1)');
-		console.log(document.getElementById('settings'));
-		document.getElementById('settings').appendChild(zoom_chart_vertical);
-		//document.getElementById('settings').appendChild(zoom_chart_orizontal);
+		// vertical move
+		var chart_zoom_vertical = document.createElement('input');
+		var chart_zoom_vertical_label = document.createElement('label');
+		chart_zoom_vertical_label.innerHTML = 'Vertical move';
+		chart_zoom_vertical.setAttribute('type', 'range');
+		chart_zoom_vertical.setAttribute('min', 1130);
+		chart_zoom_vertical.setAttribute('max', 1440);
+		chart_zoom_vertical.setAttribute('step', this.range_step);
+		chart_zoom_vertical.setAttribute('value', window.chart.height);
+		chart_zoom_vertical.setAttribute('oninput', 'window.settings.range_change(this.value)');
+		// zoom
+		var chart_zoom = document.createElement("input");
+		var chart_zoom_label = document.createElement('label');
+		chart_zoom_label.innerHTML = 'Zoom';
+		chart_zoom.setAttribute('type', 'range');
+		chart_zoom.setAttribute('min', 100);
+		chart_zoom.setAttribute('max', +250);
+		chart_zoom.setAttribute('step', this.range_step);
+		chart_zoom.setAttribute('value', 0);
+		chart_zoom.setAttribute('oninput', 'window.settings.chart_zoom(this.value)');
+		
+		document.getElementById('settings').appendChild(chart_zoom_vertical_label);
+		document.getElementById('settings').appendChild(document.createElement('br'));
+		document.getElementById('settings').appendChild(chart_zoom_vertical);
+		document.getElementById('settings').appendChild(document.createElement('br'));
+		document.getElementById('settings').appendChild(chart_zoom_label);
+		document.getElementById('settings').appendChild(document.createElement('br'));
+		document.getElementById('settings').appendChild(chart_zoom);
 		return true;
   },
-	range_change: function(newvalue, position) {
-		if (position == 0) window.sticks.stick_y = Number(newvalue);
-		// else window.sticks.chartMax = newvalue;
+	range_change: function(newvalue) {
+		window.sticks.stick_y = Number(newvalue);
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
 		
@@ -454,16 +470,28 @@ var settings = {
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		console.log(newvalue);
+	},
+	chart_zoom: function (value) {
+		
+		console.log(value);
+		
+		this.scale = value * 0.01;
+		
+		console.log(this.scale);
+		window.chart.svg.setAttributeNS(null, 'transform', 'scale('+ this.scale +')');
 	}
 };
 
 function init(value = false) {
 	try {
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
-		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
+		if (!value) if (!chart.constructor('cover')) throw 'chart.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
 		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		if (value) if (!settings.constructor()) throw 'settings.constructor';
+		
+		
+		document.getElementById('chart').addEventListener("wheel", window.chart.chart_zoom, { passive: false });
 		
 		return true;
 	} catch (e) {
@@ -474,5 +502,3 @@ function init(value = false) {
 
 document.addEventListener('DOMContentLoaded', () => init(false));
 document.addEventListener('PricesLoaded', () => init(true));
-
-

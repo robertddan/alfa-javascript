@@ -3,19 +3,28 @@ body {
   margin: 0px;
 }
 
+/* nav */
 nav {
-  height: 77px;
-  background-color: aquamarine;
-  top: 0px;
-  margin: 0px;
+	background-color: #662D91;
+	height: 66px;
+	width: 100%;
+	// position: fixed;
+	z-index: 1;
+	color: white;
 }
 
-.container {
-  // width: 900px;
-  // background-color: bisque;
-	margin: 0px auto;
+nav #logo { 
+	top: 10px;
+	left: 10px;
+	position: relative;
+	float: left;
+	height: 46px;
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
 }
+/* nav */
 
+/* main */
 main {
 	min-height: 122px;
 }
@@ -23,7 +32,11 @@ main {
 main #sidebar { 
 	color: red;
 	float: left;
-	width: 15%;
+	width: calc(15% - 40px);
+	padding: 20px;
+
+	background-color: bisque;
+	height: 1390px;
 }
 
 main #content { 
@@ -32,11 +45,24 @@ main #content {
 	width: 85%;
 }   
 
-#chart {
+main #chart {
   background-color: beige;
 }
 
-.newLine {
-	stroke: rgb(255,0,0);
-	stroke-width: 2
+main #cover {
+	position: relative;
+	z-index: -1;
+}
+/* main */
+
+.container {
+  // width: 900px;
+  // background-color: bisque;
+	margin: 0px auto;
+}
+
+.shadow {
+    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
 }
