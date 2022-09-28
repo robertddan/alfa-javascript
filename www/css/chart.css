@@ -30,13 +30,12 @@ main {
 }
 
 main #sidebar { 
-	color: red;
+	color: white;
 	float: left;
 	width: calc(15% - 40px);
 	padding: 20px;
-
-	background-color: bisque;
-	height: 1390px;
+	background-color: #4CAF50;
+	height: 1350px;
 }
 
 main #content { 
@@ -46,7 +45,7 @@ main #content {
 }   
 
 main #chart {
-  background-color: beige;
+  background-color: #fff;
 }
 
 main #cover {

@@ -430,7 +430,17 @@ var settings = {
 		chart_zoom_vertical.setAttribute('max', 1440);
 		chart_zoom_vertical.setAttribute('step', this.range_step);
 		chart_zoom_vertical.setAttribute('value', window.chart.height);
-		chart_zoom_vertical.setAttribute('oninput', 'window.settings.range_change(this.value)');
+		chart_zoom_vertical.setAttribute('oninput', 'window.settings.vertical_change(this.value)');
+		// horizontal move
+		var chart_zoom_horizontal = document.createElement('input');
+		var chart_zoom_horizontal_label = document.createElement('label');
+		chart_zoom_horizontal_label.innerHTML = 'Horizontal move';
+		chart_zoom_horizontal.setAttribute('type', 'range');
+		chart_zoom_horizontal.setAttribute('min', 1130);
+		chart_zoom_horizontal.setAttribute('max', 1440);
+		chart_zoom_horizontal.setAttribute('step', this.range_step);
+		chart_zoom_horizontal.setAttribute('value', window.chart.width);
+		chart_zoom_horizontal.setAttribute('oninput', 'window.settings.horizontal_change(this.value)');
 		// zoom
 		var chart_zoom = document.createElement("input");
 		var chart_zoom_label = document.createElement('label');
@@ -446,12 +456,38 @@ var settings = {
 		document.getElementById('settings').appendChild(document.createElement('br'));
 		document.getElementById('settings').appendChild(chart_zoom_vertical);
 		document.getElementById('settings').appendChild(document.createElement('br'));
+		
+		document.getElementById('settings').appendChild(chart_zoom_horizontal_label);
+		document.getElementById('settings').appendChild(document.createElement('br'));
+		document.getElementById('settings').appendChild(chart_zoom_horizontal);
+		document.getElementById('settings').appendChild(document.createElement('br'));
+		
 		document.getElementById('settings').appendChild(chart_zoom_label);
 		document.getElementById('settings').appendChild(document.createElement('br'));
 		document.getElementById('settings').appendChild(chart_zoom);
 		return true;
   },
-	range_change: function(newvalue) {
+	vertical_change: function(newvalue) {
+		window.sticks.stick_y = Number(newvalue);
+		const boxes = document.querySelectorAll('.chart_group');
+		boxes.forEach(box => box.remove());
+		
+		sticks.chart = window.chart;
+		sticks.scale = null;
+		sticks.ratio = null;
+		sticks.min = null;
+		sticks.sticks = null;
+		sticks.xmlns = null;
+		sticks.width = 12;
+		sticks.svg = null;
+		sticks.gap = 1;
+		sticks.chartMin = -650;
+		sticks.chartMax = 650;
+		
+		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		console.log(newvalue);
+	},
+	horizontal_change: function(newvalue) {
 		window.sticks.stick_y = Number(newvalue);
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
@@ -472,12 +508,7 @@ var settings = {
 		console.log(newvalue);
 	},
 	chart_zoom: function (value) {
-		
-		console.log(value);
-		
 		this.scale = value * 0.01;
-		
-		console.log(this.scale);
 		window.chart.svg.setAttributeNS(null, 'transform', 'scale('+ this.scale +')');
 	}
 };
