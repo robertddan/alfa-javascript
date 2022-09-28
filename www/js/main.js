@@ -242,6 +242,7 @@ var sticks = {
 	gap: 1,
 	chartMin: -650,
 	chartMax: 650,
+	stick_y: 1440,
 	constructor: function(list) {
 		try {
 			// set sticks
@@ -251,7 +252,6 @@ var sticks = {
 			if (!this.sticks_ratio(list)) throw 'sticks.sticks_ratio';
 			if (!this.sticks_architecture(list)) throw 'sticks.sticks_architecture';
 			if (!this.sticks_view()) throw 'sticks.sticks_view';
-			//console.log(this.sticks);
 			return true;
 		} catch (e) {
 			console.error(e);
@@ -264,7 +264,7 @@ var sticks = {
 		let stick_below = document.createElementNS(this.xmlns, 'line');
 		
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
-		let stick_y = 1440;
+		// let stick_y = 1440;
 		let stick_x = 6;
 		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
 		//let stick_xx = this.gap * 12;
@@ -276,12 +276,12 @@ var sticks = {
 			//top
 			stick_top.setAttributeNS(null, 'x1', stick_xx);
 			stick_top.setAttributeNS(null, 'x2', stick_xx);
-			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('open'));
+			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
 			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
-			stick_body.setAttributeNS(null, 'y', stick_y - chart.get('open'));
+			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('open'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
 			stick_body.setAttributeNS(null, 'fill', 'Red');
@@ -289,8 +289,8 @@ var sticks = {
 			// bottom
 			stick_below .setAttributeNS(null, 'x1', stick_xx);
 			stick_below.setAttributeNS(null, 'x2', stick_xx);
-			stick_below.setAttributeNS(null, 'y1', stick_y - chart.get('close'));
-			stick_below.setAttributeNS(null, 'y2', stick_y - chart.get('low'));
+			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('close'));
+			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
 		}
 		else if (chart.get('open') < chart.get('close')) {
@@ -298,12 +298,12 @@ var sticks = {
 			// top
 			stick_top.setAttributeNS(null, 'x1', stick_xx);
 			stick_top.setAttributeNS(null, 'x2', stick_xx);
-			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('close'));
+			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
 			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
-			stick_body.setAttributeNS(null, 'y', stick_y - chart.get('close'));
+			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('close'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
@@ -311,8 +311,8 @@ var sticks = {
 			// bottom
 			stick_below.setAttributeNS(null, 'x1', stick_xx);
 			stick_below.setAttributeNS(null, 'x2', stick_xx);
-			stick_below.setAttributeNS(null, 'y1', stick_y - chart.get('open'));
-			stick_below.setAttributeNS(null, 'y2', stick_y - chart.get('low'));
+			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('open'));
+			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
 		}
 		else if (chart.get('open') == chart.get('close')) {
@@ -320,12 +320,12 @@ var sticks = {
 			// top
 			stick_top.setAttributeNS(null, 'x1', stick_xx);
 			stick_top.setAttributeNS(null, 'x2', stick_xx);
-			stick_top.setAttributeNS(null, 'y1', stick_y - chart.get('high'));
-			stick_top.setAttributeNS(null, 'y2', stick_y - chart.get('open'));
+			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
+			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
 			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
-			stick_body.setAttributeNS(null, 'y', stick_y - chart.get('open'));
+			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('open'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', 2);
 			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
@@ -333,8 +333,8 @@ var sticks = {
 			// bottom
 			stick_below.setAttributeNS(null, 'x1', stick_xx);
 			stick_below.setAttributeNS(null, 'x2', stick_xx);
-			stick_below.setAttributeNS(null, 'y1', stick_y - chart.get('close'));
-			stick_below.setAttributeNS(null, 'y2', stick_y - chart.get('low'));
+			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('close'));
+			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
 		}
 		
@@ -344,10 +344,12 @@ var sticks = {
 		stick_group.appendChild(stick_body);
 		stick_group.appendChild(stick_below);
 		this.svg.appendChild(stick_group);
+		console.log('sticks_chart');
 		return true;
   },
 	sticks_view: function() {
 		for (const [key, value] of Object.entries(this.sticks)) this.sticks_chart(value);
+		console.log('sticks_view');
 		return true;
   },
 	sticks_architecture: function(prices) {
@@ -358,25 +360,12 @@ var sticks = {
 		for (const [key, value] of Object.entries(prices)) {
 			for (let j = 0; j < value.length; j++) {
 				if (this.sticks[i] == undefined) this.sticks[i] = new Map();
-				this.sticks[i].set(keys[j], this.price_ratio(value[j]));
+				let diff = Number(Number(value[j]) - Number(this.min)) * Number(this.ratio);
+				this.sticks[i].set(keys[j], diff);
 			}
 			i = i + 1;
 		}
-		return true;
-  },
-	price_ratio: function(price) {
-		let diff = Number(price) - Number(this.min);
-		return Number(diff) * Number(this.ratio);
-  },
-	sticks_scale: function(list) { 
-		if (this.scale !== null) return true;
-		let prices = new Array(list[1], list[Object.keys(list).length]);
-		for (let i = 0; i < prices.length; i++) {
-			for (let j = 0; j < prices[i].length; j++) {
-				let len = prices[i][j].split('.')[1].length;
-				if (this.scale < len) this.scale = len;
-			}
-		}
+		console.log('sticks_architecture');
 		return true;
   },
 	sticks_ratio: function(prices) {
@@ -394,12 +383,28 @@ var sticks = {
 		let difChart = Number(chartMax) - Number(chartMin);
 		this.ratio = Number(difChart) / Number(difPrice);
 		this.min = minPrice;
+		
+		console.log('sticks_ratio');
+		console.log([this.ratio, this.min, this.stick_y]);
+		
 		return true;
 	},
+	sticks_scale: function(list) { 
+		if (this.scale !== null) return true;
+		let prices = new Array(list[1], list[Object.keys(list).length]);
+		for (let i = 0; i < prices.length; i++) {
+			for (let j = 0; j < prices[i].length; j++) {
+				let len = prices[i][j].split('.')[1].length;
+				if (this.scale < len) this.scale = len;
+			}
+		}
+		console.log('sticks_scale');
+		return true;
+  }
 };
 
 var settings = {
-	range_step: 10,
+	range_step: 12,
 	constructor: function() {
 		try {
 			// set settings
@@ -412,31 +417,47 @@ var settings = {
 	chart_range: function(list) {
 		var zoom_chart_vertical = document.createElement("input");
 		zoom_chart_vertical.setAttribute('type', 'range');
-		zoom_chart_vertical.setAttribute('min', 1000);
-		zoom_chart_vertical.setAttribute('max', 2000);
+		zoom_chart_vertical.setAttribute('min', 1130);
+		zoom_chart_vertical.setAttribute('max', 1440);
 		zoom_chart_vertical.setAttribute('step', this.range_step);
 		zoom_chart_vertical.setAttribute('value', window.chart.height);
 		zoom_chart_vertical.setAttribute('oninput', 'window.settings.range_change(this.value, 0)');
 		// oninput="windowsettings.range_change(this.value)
 		var zoom_chart_orizontal = document.createElement("input");
 		zoom_chart_orizontal.setAttribute('type', 'range');
-		zoom_chart_orizontal.setAttribute('min', 1000);
-		zoom_chart_orizontal.setAttribute('max', 2000);
+		zoom_chart_orizontal.setAttribute('min', 0);
+		zoom_chart_orizontal.setAttribute('max', 20);
 		zoom_chart_orizontal.setAttribute('step', this.range_step);
 		zoom_chart_orizontal.setAttribute('value', window.chart.width);
 		zoom_chart_orizontal.setAttribute('oninput', 'window.settings.range_change(this.value, 1)');
 		console.log(document.getElementById('settings'));
 		document.getElementById('settings').appendChild(zoom_chart_vertical);
-		document.getElementById('settings').appendChild(zoom_chart_orizontal);
+		//document.getElementById('settings').appendChild(zoom_chart_orizontal);
 		return true;
   },
 	range_change: function(newvalue, position) {
-		if (position == 0) window.sticks.chartMin = newvalue;
-		else window.sticks.chartMax = newvalue;
+		if (position == 0) window.sticks.stick_y = Number(newvalue);
+		// else window.sticks.chartMax = newvalue;
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
-		if (!sticks.constructor(window.shapes.get())) throw 'sticks.constructor';
-		//console.log(newvalue);
+		
+		console.log(sticks.sticks);
+		sticks.ratio = sticks.scale = sticks.sticks = null;
+		
+sticks.chart = window.chart;
+sticks.scale = null;
+sticks.ratio = null;
+sticks.min = null;
+sticks.sticks = null;
+sticks.xmlns = null;
+sticks.width = 12;
+sticks.svg = null;
+sticks.gap = 1;
+sticks.chartMin = -650;
+sticks.chartMax = 650;
+		
+		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
+		console.log(newvalue);
 	}
 };
 
@@ -444,8 +465,8 @@ var settings = {
 
 function init(value = false) {
 	try {
-		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
+		if (!value) if (!chart.constructor('wrapChart')) throw 'chart.constructor';
 		if (value) if (!shapes.constructor(prices.get())) throw 'shapes.constructor';
 		if (value) if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		if (value) if (!settings.constructor()) throw 'settings.constructor';
@@ -459,102 +480,4 @@ function init(value = false) {
 
 document.addEventListener('DOMContentLoaded', () => init(false));
 document.addEventListener('PricesLoaded', () => init(true));
-
-
-
-			
-/*
-	<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
-	<line 
-		x1="{{ xx1 }}"
-		y1="{{ 2555 - price.chart_high }}" 
-		x2="{{ xx1 }}" 
-		y2="{{ 2555 - price.chart_open }}" 
-		style="stroke:DodgerBlue;stroke-width:1"
-	/>
-*/
-/*
-
-{% set xx1 = 150 + ((loop.index / 1) - 1) * (3700 / prices|length) %}
-{% set xx2 = 150 + (loop.index / 1) * (3700 / prices|length) %}
-
-{% if chart_sticks %}
-	{% if price.chart_open > price.chart_close %}
-		<!-- bearish -->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_high }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_open }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- bearish -->
-	{% elseif price.chart_open < price.chart_close %}
-		<!-- bullish -->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_high }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_close }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- bullish -->
-	{% elseif price.chart_open == price.chart_close %}
-		<!-- doji-->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_high }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_open }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- doji-->
-	{% endif %}
-
-
-	{% if price.chart_close > price.chart_open %}
-		<!-- bullish -->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_open }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_low }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- bullish -->
-	{% elseif price.chart_close < price.chart_open %}
-		<!-- bearish -->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_close }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_low }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- bearish -->
-	{% elseif price.chart_close == price.chart_open %}
-		<!-- doji -->
-		<line 
-			x1="{{ xx1 }}"
-			y1="{{ 2555 - price.chart_close }}" 
-			x2="{{ xx1 }}" 
-			y2="{{ 2555 - price.chart_low }}" 
-			style="stroke:DodgerBlue;stroke-width:1"
-		/>
-		<!-- doji -->
-	{% endif %}
-
-{% endif %}
-<!-- candle low -->
-*/
-/*
-% if price.chart_open > price.chart_close %}
-<!-- bullish -->
-height="{{ price.chart_open - price.chart_close }}"
-
-{% elseif price.chart_open < price.chart_close %}
-<!-- bearish -->
-height="{{ price.chart_close - price.chart_open }}"
-*/
-
 
