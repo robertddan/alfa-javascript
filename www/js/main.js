@@ -306,7 +306,7 @@ var sticks = {
 			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('close'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
-			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
+			stick_body.setAttributeNS(null, 'fill', 'Green');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
 			// bottom
 			stick_below.setAttributeNS(null, 'x1', stick_xx);
@@ -327,9 +327,8 @@ var sticks = {
 			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
 			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('open'));
 			stick_body.setAttributeNS(null, 'width', this.width);
-			stick_body.setAttributeNS(null, 'height', 2);
-			stick_body.setAttributeNS(null, 'fill', 'DodgerBlue');
-			stick_body.setAttributeNS(null, 'stroke', 'White');
+			stick_body.setAttributeNS(null, 'height', 1);
+			stick_body.setAttributeNS(null, 'stroke', 'Gray');
 			// bottom
 			stick_below.setAttributeNS(null, 'x1', stick_xx);
 			stick_below.setAttributeNS(null, 'x2', stick_xx);
@@ -441,20 +440,17 @@ var settings = {
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
 		
-		console.log(sticks.sticks);
-		sticks.ratio = sticks.scale = sticks.sticks = null;
-		
-sticks.chart = window.chart;
-sticks.scale = null;
-sticks.ratio = null;
-sticks.min = null;
-sticks.sticks = null;
-sticks.xmlns = null;
-sticks.width = 12;
-sticks.svg = null;
-sticks.gap = 1;
-sticks.chartMin = -650;
-sticks.chartMax = 650;
+		sticks.chart = window.chart;
+		sticks.scale = null;
+		sticks.ratio = null;
+		sticks.min = null;
+		sticks.sticks = null;
+		sticks.xmlns = null;
+		sticks.width = 12;
+		sticks.svg = null;
+		sticks.gap = 1;
+		sticks.chartMin = -650;
+		sticks.chartMax = 650;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 		console.log(newvalue);
