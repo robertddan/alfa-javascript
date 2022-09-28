@@ -2,7 +2,7 @@
 
 var chart = {
 	svg: {},
-	height: 1890,
+	height: 1390,
 	width: 2240,
 	grid_gap: 60,
 	constructor: function(sDivId) {
@@ -242,7 +242,7 @@ var sticks = {
 	gap: 1,
 	chartMin: -650,
 	chartMax: 650,
-	stick_y: 1440,
+	stick_y: 1360,
 	constructor: function(list) {
 		try {
 			// set sticks
