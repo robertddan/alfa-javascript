@@ -267,7 +267,7 @@ var sticks = {
 		
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
 		// let stick_y = 1440;
-		let stick_x = 6;
+		//let stick_x = 6;
 		//let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
 		let stick_xx = this.gap * 10;
 		
