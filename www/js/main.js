@@ -457,8 +457,6 @@ var settings = {
 	}
 };
 
-
-
 function init(value = false) {
 	try {
 		if (!value) if (!prices.constructor()) throw 'prices.constructor';
@@ -476,4 +474,5 @@ function init(value = false) {
 
 document.addEventListener('DOMContentLoaded', () => init(false));
 document.addEventListener('PricesLoaded', () => init(true));
+
 
