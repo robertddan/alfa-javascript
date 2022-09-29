@@ -240,8 +240,8 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 1,
-	chartMin: -650,
-	chartMax: 650,
+	chartMin: -380,
+	chartMax: +380,
 	stick_xx: 0,
 	stick_x: 1,
 	stick_y: 1260,
@@ -269,7 +269,7 @@ var sticks = {
 		// let stick_y = 1440;
 		//let stick_x = 6;
 		//let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
-		this.stick_xx = this.gap * 10;
+		this.stick_xx = this.gap * 12;
 		
 		stick_group.setAttribute('class', 'chart_group');
 		//console.log([chart.get('high'), chart]);
@@ -434,7 +434,7 @@ var settings = {
 		var chart_zoom_horizontal_label = document.createElement('label');
 		chart_zoom_horizontal_label.innerHTML = 'Horizontal move';
 		chart_zoom_horizontal.setAttribute('type', 'range');
-		chart_zoom_horizontal.setAttribute('min', -2240 * 2);
+		chart_zoom_horizontal.setAttribute('min', -5480);
 		chart_zoom_horizontal.setAttribute('max', +1640);
 		chart_zoom_horizontal.setAttribute('step', this.range_step);
 		chart_zoom_horizontal.setAttribute('value', 0);
@@ -479,8 +479,8 @@ var settings = {
 		sticks.width = 12;
 		sticks.svg = null;
 		sticks.gap = 1;
-		sticks.chartMin = -650;
-		sticks.chartMax = 650;
+		sticks.chartMin = -380;
+		sticks.chartMax = +380;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 	},
@@ -498,8 +498,8 @@ var settings = {
 		sticks.width = 12;
 		sticks.svg = null;
 		sticks.gap = 1;
-		sticks.chartMin = -650;
-		sticks.chartMax = 650;
+		sticks.chartMin = -380;
+		sticks.chartMax = +380;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 	},
