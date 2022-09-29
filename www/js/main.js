@@ -34,14 +34,14 @@ var chart = {
 		borderVertical.setAttributeNS(null, 'x2', '0');
 		borderVertical.setAttributeNS(null, 'y1', '0');
 		borderVertical.setAttributeNS(null, 'y2', this.height);
-		borderVertical.setAttributeNS(null, 'stroke', 'Red');
+		borderVertical.setAttributeNS(null, 'stroke', '#FEBC56');
 		// Horizontal
 		let linesHorizontal = document.createElementNS(this.xmlns, 'line');
 		linesHorizontal.setAttributeNS(null, 'x1', '0');
 		linesHorizontal.setAttributeNS(null, 'x2', this.width);
 		linesHorizontal.setAttributeNS(null, 'y1', this.height);
 		linesHorizontal.setAttributeNS(null, 'y2', this.height);
-		linesHorizontal.setAttributeNS(null, 'stroke', 'Red');
+		linesHorizontal.setAttributeNS(null, 'stroke', '#FEBC56');
 		// Append
 		groupLimits.appendChild(borderVertical);
 		groupLimits.appendChild(linesHorizontal);
@@ -157,13 +157,11 @@ var shapes = {
 	prices: [],
 	debug: 0,
 	constructor: function(prices) {
-		console.log(prices);
 		try {
 			// set shapes
 			for (let i = 0; i < prices.length; i++) {
 				if (i < 250) continue;
 				//if (i > 4000) break;
-			console.log(i );
 				const time = new Date(prices[i].time);
 				if (!this.comparison(time)) throw 'this.comparison';
 				if (!this.enclose(time)) throw 'this.enclose';
@@ -244,6 +242,8 @@ var sticks = {
 	gap: 1,
 	chartMin: -650,
 	chartMax: 650,
+	stick_xx: 0,
+	stick_x: 1,
 	stick_y: 1260,
 	constructor: function(list) {
 		try {
@@ -268,29 +268,29 @@ var sticks = {
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
 		// let stick_y = 1440;
 		//let stick_x = 6;
-		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
-		//let stick_xx = this.gap * 10;
+		//let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
+		this.stick_xx = this.gap * 10;
 		
 		stick_group.setAttribute('class', 'chart_group');
 		//console.log([chart.get('high'), chart]);
 		if (chart.get('open') > chart.get('close')) {
 			// bearisch
 			//top
-			stick_top.setAttributeNS(null, 'x1', stick_xx);
-			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_top.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
-			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
+			stick_body.setAttributeNS(null, 'x', this.stick_x + this.stick_xx - 6);
 			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('open'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('open') - chart.get('close')) );
 			stick_body.setAttributeNS(null, 'fill', 'Red');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
 			// bottom
-			stick_below .setAttributeNS(null, 'x1', stick_xx);
-			stick_below.setAttributeNS(null, 'x2', stick_xx);
+			stick_below .setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_below.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('close'));
 			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
@@ -298,21 +298,21 @@ var sticks = {
 		else if (chart.get('open') < chart.get('close')) {
 			// bullisch
 			// top
-			stick_top.setAttributeNS(null, 'x1', stick_xx);
-			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_top.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('close'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
-			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
+			stick_body.setAttributeNS(null, 'x', this.stick_x + this.stick_xx - 6);
 			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('close'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', (chart.get('close') - chart.get('open')) );
 			stick_body.setAttributeNS(null, 'fill', 'Green');
 			stick_body.setAttributeNS(null, 'stroke', 'White');
 			// bottom
-			stick_below.setAttributeNS(null, 'x1', stick_xx);
-			stick_below.setAttributeNS(null, 'x2', stick_xx);
+			stick_below.setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_below.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('open'));
 			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
@@ -320,20 +320,20 @@ var sticks = {
 		else if (chart.get('open') == chart.get('close')) {
 			// doji
 			// top
-			stick_top.setAttributeNS(null, 'x1', stick_xx);
-			stick_top.setAttributeNS(null, 'x2', stick_xx);
+			stick_top.setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_top.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_top.setAttributeNS(null, 'y1', this.stick_y - chart.get('high'));
 			stick_top.setAttributeNS(null, 'y2', this.stick_y - chart.get('open'));
 			stick_top.setAttributeNS(null, 'stroke', 'Black');
 			// body
-			stick_body.setAttributeNS(null, 'x', stick_xx - 6);
+			stick_body.setAttributeNS(null, 'x', this.stick_x + this.stick_xx - 6);
 			stick_body.setAttributeNS(null, 'y', this.stick_y - chart.get('open'));
 			stick_body.setAttributeNS(null, 'width', this.width);
 			stick_body.setAttributeNS(null, 'height', 1);
 			stick_body.setAttributeNS(null, 'stroke', 'Gray');
 			// bottom
-			stick_below.setAttributeNS(null, 'x1', stick_xx);
-			stick_below.setAttributeNS(null, 'x2', stick_xx);
+			stick_below.setAttributeNS(null, 'x1', this.stick_x + this.stick_xx);
+			stick_below.setAttributeNS(null, 'x2', this.stick_x + this.stick_xx);
 			stick_below.setAttributeNS(null, 'y1', this.stick_y - chart.get('close'));
 			stick_below.setAttributeNS(null, 'y2', this.stick_y - chart.get('low'));
 			stick_below.setAttributeNS(null, 'stroke', 'Black');
@@ -360,7 +360,6 @@ var sticks = {
 		let keys = ['high', 'low', 'open', 'close'];
 		
 		for (const [key, value] of Object.entries(prices)) {
-			console.log(key);
 			for (let j = 0; j < value.length; j++) {
 				if (this.sticks[i] == undefined) this.sticks[i] = new Map();
 				let diff = Number(Number(value[j]) - Number(this.min)) * Number(this.ratio);
@@ -389,7 +388,6 @@ var sticks = {
 		this.min = minPrice;
 		
 		console.log('sticks_ratio');
-		console.log([this.ratio, this.min, this.stick_y]);
 		
 		return true;
 	},
@@ -426,30 +424,30 @@ var settings = {
 		var chart_zoom_vertical_label = document.createElement('label');
 		chart_zoom_vertical_label.innerHTML = 'Vertical move';
 		chart_zoom_vertical.setAttribute('type', 'range');
-		chart_zoom_vertical.setAttribute('min', 1130);
-		chart_zoom_vertical.setAttribute('max', 1440);
+		chart_zoom_vertical.setAttribute('min', 490);
+		chart_zoom_vertical.setAttribute('max', +1090 * 2);
 		chart_zoom_vertical.setAttribute('step', this.range_step);
-		chart_zoom_vertical.setAttribute('value', window.chart.height);
+		chart_zoom_vertical.setAttribute('value', 1390);
 		chart_zoom_vertical.setAttribute('oninput', 'window.settings.vertical_change(this.value)');
 		// horizontal move
 		var chart_zoom_horizontal = document.createElement('input');
 		var chart_zoom_horizontal_label = document.createElement('label');
 		chart_zoom_horizontal_label.innerHTML = 'Horizontal move';
 		chart_zoom_horizontal.setAttribute('type', 'range');
-		chart_zoom_horizontal.setAttribute('min', 1130);
-		chart_zoom_horizontal.setAttribute('max', 1440);
+		chart_zoom_horizontal.setAttribute('min', -2240 * 2);
+		chart_zoom_horizontal.setAttribute('max', +1640);
 		chart_zoom_horizontal.setAttribute('step', this.range_step);
-		chart_zoom_horizontal.setAttribute('value', window.chart.width);
+		chart_zoom_horizontal.setAttribute('value', 0);
 		chart_zoom_horizontal.setAttribute('oninput', 'window.settings.horizontal_change(this.value)');
 		// zoom
 		var chart_zoom = document.createElement("input");
 		var chart_zoom_label = document.createElement('label');
-		chart_zoom_label.innerHTML = 'Zoom';
+		chart_zoom_label.innerHTML = 'Zoom +/-';
 		chart_zoom.setAttribute('type', 'range');
 		chart_zoom.setAttribute('min', 100);
-		chart_zoom.setAttribute('max', +250);
+		chart_zoom.setAttribute('max', 500);
 		chart_zoom.setAttribute('step', this.range_step);
-		chart_zoom.setAttribute('value', 0);
+		chart_zoom.setAttribute('value', 1);
 		chart_zoom.setAttribute('oninput', 'window.settings.chart_zoom(this.value)');
 		
 		document.getElementById('settings').appendChild(chart_zoom_vertical_label);
@@ -485,10 +483,9 @@ var settings = {
 		sticks.chartMax = 650;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
-		console.log(newvalue);
 	},
 	horizontal_change: function(newvalue) {
-		window.sticks.stick_y = Number(newvalue);
+		window.sticks.stick_x = Number(newvalue);
 		const boxes = document.querySelectorAll('.chart_group');
 		boxes.forEach(box => box.remove());
 		
@@ -505,7 +502,6 @@ var settings = {
 		sticks.chartMax = 650;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
-		console.log(newvalue);
 	},
 	chart_zoom: function (value) {
 		this.scale = value * 0.01;
