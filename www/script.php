@@ -11,7 +11,7 @@ header("Content-length: 1136900");# . strlen($sPrices); // tells file size
 // EUR_GBP_0002 - 713386
 
 // !!! Size of package must be manually written
-$sPrices = file_get_contents('./EUR_GBP_0001.json', true);
+$sPrices = file_get_contents('./EUR_GBP_0003.json', true);
 return print $sPrices;
 
 
@@ -20,11 +20,12 @@ var_dump(count($aSticks));
 
 $aSaved = array();
 foreach ($aSticks as $k => $aStick) {
-	if ($k > 5000) break;
+	if ($k < 2000) continue;
+	if ($k > 17000) break;
 	array_push($aSaved, $aStick);
 }
 
-file_put_contents('EUR_GBP_0002.json', json_encode($aSaved));
+file_put_contents('EUR_GBP_0003.json', json_encode($aSaved));
 return true;
 
 
