@@ -161,7 +161,7 @@ var shapes = {
 		try {
 			// set shapes
 			for (let i = 0; i < prices.length; i++) {
-				if (i < 550) continue;
+				if (i < 250) continue;
 				//if (i > 4000) break;
 			console.log(i );
 				const time = new Date(prices[i].time);
@@ -268,8 +268,8 @@ var sticks = {
 		// {% set xx1 = 150 + loop.index  * (3700 / prices|length) %}
 		// let stick_y = 1440;
 		//let stick_x = 6;
-		//let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
-		let stick_xx = this.gap * 10;
+		let stick_xx = this.gap * (window.chart.width / Object.keys(this.sticks).length);
+		//let stick_xx = this.gap * 10;
 		
 		stick_group.setAttribute('class', 'chart_group');
 		//console.log([chart.get('high'), chart]);
