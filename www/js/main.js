@@ -240,8 +240,8 @@ var sticks = {
 	width: 12,
 	svg: null,
 	gap: 1,
-	chartMin: -420,
-	chartMax: +420,
+	chartMin: -650,
+	chartMax: +650,
 	stick_xx: 0,
 	stick_x: 1,
 	stick_y: 1260,
@@ -479,8 +479,8 @@ var settings = {
 		sticks.width = 12;
 		sticks.svg = null;
 		sticks.gap = 1;
-		sticks.chartMin = -420;
-		sticks.chartMax = +420;
+		sticks.chartMin = -650;
+		sticks.chartMax = +650;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 	},
@@ -498,8 +498,8 @@ var settings = {
 		sticks.width = 12;
 		sticks.svg = null;
 		sticks.gap = 1;
-		sticks.chartMin = -420;
-		sticks.chartMax = +420;
+		sticks.chartMin = -650;
+		sticks.chartMax = +650;
 		
 		if (!sticks.constructor(shapes.get())) throw 'sticks.constructor';
 	},

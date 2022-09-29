@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
-header("Content-length: 1136900");# . strlen($sPrices); // tells file size
+header("Content-length: 2119613");# . strlen($sPrices); // tells file size
 
 // EUR_GBP - 21410997
 // EUR_USD - 21410997
