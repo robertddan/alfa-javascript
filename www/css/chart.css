@@ -8,7 +8,6 @@ nav {
 	background-color: #662D91;
 	height: 66px;
 	width: 100%;
-	// position: fixed;
 	z-index: 1;
 	color: white;
 }
@@ -55,13 +54,17 @@ main #cover {
 /* main */
 
 .container {
-  // width: 900px;
-  // background-color: bisque;
 	margin: 0px auto;
 }
 
 .shadow {
-    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+	-webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+	-moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+	box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
+
+h2 {
+	margin: 0px;
+	padding: 20px 10px 0 25px;
+	float: left;
 }
