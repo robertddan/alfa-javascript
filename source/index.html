@@ -10,19 +10,18 @@ if (typeof(EventSource) == 'undefined') console.error('Connection aborted');
 	
 const evtSource = new EventSource("/source/script.php");
 evtSource.onmessage = (event) => {
-	
-	console.log(event);
-	
   const newElement = document.createElement("li");
   const eventList = document.getElementById("list");
-
   newElement.textContent = `message: ${event.data}`;
   eventList.appendChild(newElement);
 }
+
+console.log(evtSource.withCredentials);
+console.log(evtSource.readyState);
+console.log(evtSource.url);
+	
 evtSource.addEventListener("ping", (event) => {
-	
 	//console.log(event);
-	
   const newElement = document.createElement("li");
   const eventList = document.getElementById("list");
   const time = JSON.parse(event.data).time;
