@@ -7,12 +7,14 @@ $sData = json_encode(array(
 	"time" => 'aa'.date(DATE_ISO8601),
 ));
 
-return print "event: ping\n". "data:{$sData}\n\n";
+return print "data:{$sData}\n\n";
 
 /*
+return print "event: ping\n". "data:{$sData}\n\n";
+*/
 
-"event: ping\ndata:". 
 
+/*
 $counter = rand(1, 10);
 while (true) {
   // Every second, send a "ping" event.

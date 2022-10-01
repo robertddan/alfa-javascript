@@ -7,8 +7,20 @@
 <script>
 	
 if (typeof(EventSource) == 'undefined') console.error('Connection aborted');
-	
+
 const evtSource = new EventSource("/source/script.php");
+
+evtSource.addEventListener("message", (event) => {
+	console.log(event);
+	
+  const newElement = document.createElement("li");
+	const eventList = document.getElementById("list");
+  newElement.textContent = `message: ${event.data}`;
+  eventList.appendChild(newElement);
+	
+});
+	
+/*
 evtSource.onmessage = (event) => {
   const newElement = document.createElement("li");
   const eventList = document.getElementById("list");
@@ -28,6 +40,8 @@ evtSource.addEventListener("ping", (event) => {
   newElement.textContent = `ping at ${time}`;
   eventList.appendChild(newElement);
 });
+*/
+
 /*
 	console.info('Starting connection...');
 	var source = new EventSource('./source/script.php');
