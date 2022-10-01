@@ -1,16 +1,31 @@
-<?php
-//ob_end_clean();
-header('Content-Type: text/event-stream');
-header('Cache-Control: no-cache');
-//header('Connection: keep-alive');
+date_default_timezone_set("America/New_York");
+header("Cache-Control: no-store");
+header("Content-Type: text/event-stream");
+
+$counter = rand(1, 10);
 while (true) {
+  // Every second, send a "ping" event.
 
-    //echo "retry: 1000" . PHP_EOL;
-    echo 'id: ' . uniqid() . PHP_EOL;
-    echo 'data: ' . date("h:i:s", time()) . PHP_EOL;
-    echo PHP_EOL;
-    //ob_flush();
-    //flush();
+  echo "event: ping\n";
+  $curDate = date(DATE_ISO8601);
+  echo 'data: {"time": "' . $curDate . '"}';
+  echo "\n\n";
 
-    sleep(1);
+  // Send a simple message at random intervals.
+
+  $counter--;
+
+  if (!$counter) {
+    echo 'data: This is a message at time ' . $curDate . "\n\n";
+    $counter = rand(1, 10);
+  }
+
+  ob_end_flush();
+  flush();
+
+  // Break the loop if the client aborted the connection (closed the page)
+
+  if (connection_aborted()) break;
+
+  sleep(1);
 }
