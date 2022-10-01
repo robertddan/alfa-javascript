@@ -3,14 +3,14 @@ date_default_timezone_set("America/New_York");
 header("Cache-Control: no-store");
 header("Content-Type: text/event-stream");
 
-echo "event: ping\n";
-$curDate = date(DATE_ISO8601);
-echo 'data: {"time": "' . $curDate . '"}';
-echo "\n\n";
 
-return true;
+
+return print "event: ping\n". "data:". json_encode(array("time" => 'aa'.date(DATE_ISO8601)) )  ."\n\n";
 
 /*
+
+"event: ping\ndata:". 
+
 $counter = rand(1, 10);
 while (true) {
   // Every second, send a "ping" event.
