@@ -3,9 +3,11 @@ date_default_timezone_set("America/New_York");
 header("Cache-Control: no-store");
 header("Content-Type: text/event-stream");
 
+$sData = json_encode(array(
+	"time" => 'aa'.date(DATE_ISO8601),
+));
 
-
-return print "event: ping\n". "data:". json_encode(array("time" => 'aa'.date(DATE_ISO8601)) )  ."\n\n";
+return print "event: ping\n". "data:{$sData}\n\n";
 
 /*
 
