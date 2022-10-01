@@ -1,38 +1,55 @@
 <!DOCTYPE html>
 <html>
 <body>
-<div id="result"></div>
+	
+<div id="list"></div>
+	
 <script>
-if (typeof(EventSource) !== 'undefined') {
-    console.info('Starting connection...');
-    var source = new EventSource('./source/script.php');
-    source.addEventListener('open', function(e) {
-        console.info('Connection was opened.');
-    }, false);
+	
+if (typeof(EventSource) == 'undefined') console.error('Connection aborted');
+	
+const evtSource = new EventSource("/source/script.php");
+evtSource.onmessage = (event) => {
+  const newElement = document.createElement("li");
+  const eventList = document.getElementById("list");
 
-    source.addEventListener('error', function(e) {
-        var txt;
-        switch (event.target.readyState) {
-            // if reconnecting
-            case EventSource.CONNECTING:
-                txt = 'Reconnecting...';
-                break;
-            // if error was fatal
-            case EventSource.CLOSED:
-                txt = 'Connection failed. Will not retry.';
-                break;
-        }
-        console.error('Connection error: ' + txt);
-    }, false);
-
-    source.addEventListener('message', function(e) {
-        document.getElementById('result').innerHTML += e.data + '<br>';
-        console.log(e.data);
-    }, false);
-} else {
-    alert('Your browser does not support Server-sent events! Please upgrade it!');
-    console.error('Connection aborted');
+  newElement.textContent = `message: ${event.data}`;
+  eventList.appendChild(newElement);
 }
+evtSource.addEventListener("ping", (event) => {
+  const newElement = document.createElement("li");
+  const eventList = document.getElementById("list");
+  const time = JSON.parse(event.data).time;
+  newElement.textContent = `ping at ${time}`;
+  eventList.appendChild(newElement);
+});
+/*
+	console.info('Starting connection...');
+	var source = new EventSource('./source/script.php');
+	source.addEventListener('open', function(e) {
+			console.info('Connection was opened.');
+	}, false);
+
+	source.addEventListener('error', function(e) {
+			var txt;
+			switch (event.target.readyState) {
+					// if reconnecting
+					case EventSource.CONNECTING:
+							txt = 'Reconnecting...';
+							break;
+					// if error was fatal
+					case EventSource.CLOSED:
+							txt = 'Connection failed. Will not retry.';
+							break;
+			}
+			console.error('Connection error: ' + txt);
+	}, false);
+
+	source.addEventListener('message', function(e) {
+			document.getElementById('result').innerHTML += e.data + '<br>';
+			console.log(e.data);
+	}, false);
+*/
 </script>
 </body>
 </html>
