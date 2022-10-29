@@ -8,7 +8,9 @@
 	
 if (typeof(EventSource) == 'undefined') console.error('Connection aborted');
 
-const evtSource = new EventSource("/source/script.php");
+// const evtSource = new EventSource("/source/script.php?a=123");
+
+	const evtSource = new EventSource("/source/script.php?a=123");
 
 evtSource.addEventListener("message", (event) => {
 	console.log(event);

@@ -11,6 +11,9 @@ return print "data:{$sData}\n\n";
 
 /*
 return print "event: ping\n". "data:{$sData}\n\n";
+
+var_dump($_GET);
+
 */
 
 

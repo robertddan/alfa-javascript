@@ -3,8 +3,8 @@
 header('Content-Type: application/json; charset=utf-8');
 header("Content-length: 2119613");
 
-// EUR_USD - 21410997
-// CAD_JPY - 21410997
+// EUR_USD - 291428
+// CAD_JPY - 374596
 // EUR_GBP - 2119613
 
 $sPrices = file_get_contents('./prices/EUR_GBP.json', true);

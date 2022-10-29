@@ -89,7 +89,7 @@ var prices = {
 		} catch (e) {
 			console.error(e);
 		}
-  	},
+  },
 	prices_event: function() {
 		return new CustomEvent('PricesLoaded');
 	},
@@ -98,16 +98,6 @@ var prices = {
 	},
 	prices_set: function(prices) {
 		this.list = prices;
-		return true;
-	},
-	prices_xhr: function () {
-		if (window.XMLHttpRequest) {
-			// moderner Browser - IE ab version 7
-			this.xhr = new XMLHttpRequest();
-		} else if (window.ActiveXObject) {
-			// IE 6
-			this.xhr = new ActiveXObject('Microsoft.XMLHTTP');
-		}
 		return true;
 	},
 	prices_load: function(event) {
@@ -137,7 +127,17 @@ var prices = {
 		this.xhr.addEventListener('error', this.prices_error);
 		this.xhr.addEventListener('timeout', this.prices_timeout);
 		return true;
-  }
+  },
+	prices_xhr: function () {
+		if (window.XMLHttpRequest) {
+			// moderner Browser - IE ab version 7
+			this.xhr = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {
+			// IE 6
+			this.xhr = new ActiveXObject('Microsoft.XMLHTTP');
+		}
+		return true;
+	}
 };
 
 var shapes = {
